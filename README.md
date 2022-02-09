@@ -2,6 +2,8 @@
 
 ### *A kinda functional chessboard*
 
+# NOTE: GOTTA UPDATE THIS TO SCP DATABASE
+
 This application will:
 - Be a fully functioning chessboard
 - Be multiplayer (within the device, no network connection)
