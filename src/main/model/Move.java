@@ -13,10 +13,10 @@ public class Move {
         this.start = start;
         this.end = end;
         this.pieceMoving = pieceMoving;
-        this.pieceCaptured = Tile.getPiece(end); //why doe
+        //this.pieceCaptured = Tile.getPiece(end); //why doe
     }
     //test
-    public void movePiece(Player player, Tile start, Tile end, Piece pieceMoving) {
+    public static void movePiece(Player player, Tile start, Tile end, Piece pieceMoving) {
 
     }
 

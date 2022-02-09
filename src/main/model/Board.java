@@ -27,7 +27,7 @@ public class Board {
     // REQUIRES:
     // MODIFIES:
     // EFFECTS: Returns the Tile object given x and y positions, or null if the desired tile is not within the board.
-    public Tile getSquare(int x, int y) {
+    public Tile getTile(int x, int y) {
         if (x >= WIDTH || y >= HEIGHT) {
             return null;
         } else {
@@ -38,8 +38,8 @@ public class Board {
     // REQUIRES: x and y coordinates be lower than WIDTH and HEIGHT respectively
     // MODIFIES: this
     // EFFECTS: Puts a piece on the given tile, replacing a previous piece if there is one.
-    public void setSquare(int x, int y, Piece piece) {
-        this.chessBoard[x][y] = new Tile(x, y, piece); // do i make a new tile here ???
+    public void setTile(Piece piece) {
+        this.chessBoard[x][y].setTile(piece);
     }
 
 }

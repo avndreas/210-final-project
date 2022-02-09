@@ -11,8 +11,16 @@ public class Tile {
         this.piece = piece;
     }
 
-    public Piece getPiece(Tile tile) {
+    public Piece getPiece() {
         return this.piece;
+    }
+
+    public Tile getTile() {
+        return this;
+    }
+
+    public void setTile(Piece piece) {
+        this.piece = piece;
     }
 
 }

@@ -1,6 +1,7 @@
 package ui;
 
 import model.Board;
+import model.Chess;
 
 import java.util.Scanner;
 
@@ -9,6 +10,7 @@ import java.util.Scanner;
 public class ChessGameConsole {
 
     private Scanner input;
+    private Chess chess;
 
     public ChessGameConsole() {
         startGame();
@@ -42,9 +44,11 @@ public class ChessGameConsole {
     }
 
     private void processCommand(String command) { // NOT BUG-PROOF
-        int x = Integer.parseInt(command.substring(0));
-        int y = Integer.parseInt(command.substring(2));
-
+        int x = Integer.parseInt(command.substring(0,0));
+        int y = Integer.parseInt(command.substring(2,2));
+        System.out.println(x);
+        System.out.println(y);
+        chess.newTurn(x, y, 4, 4); //ADD REAL VALUES HERE LATER
     }
 
 }
