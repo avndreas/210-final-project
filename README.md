@@ -1,25 +1,26 @@
-# The Chess Project
+# The SCP Database
 
-### *A kinda functional chessboard*
+#### SCP stands for Secure, Contain, Protect. 
+#### It is a community-driven database of fictional entities which possess anomalous properties.
+#### These are referred to as "SCPs".
 
-# NOTE: GOTTA UPDATE THIS TO SCP DATABASE
+[Click here to see the original website.](https://scp-wiki.wikidot.com/)
 
 This application will:
-- Be a fully functioning chessboard
-- Be multiplayer (within the device, no network connection)
-- Show a player's possible moves for each piece
-- Show a nice representation of captured pieces 
-- Be able to save games and load them later
-- Have the ability to place pieces in whatever starting position the players like, allowing for strange new variants 
-(Similar to the mobile game "Really Bad Chess")
+- Be a catalogue of various different "SCPs", each being designated a unique number.
+- Allow the user to add descriptions, containment procedures, danger levels, and extra information on every SCP.
+- Provide the ability to add SCPs to a "Favourites" list, which can be browsed and edited.
+- Display images for SCPs when available.
+- Allow the user to delete or otherwise edit any SCP entry.
 
+*The SCP foundation is one of the largest community projects on the internet. Many people work together to create
+an extremely entertaining world of horror. This project is a way to improve my programming skills while learning more
+about this project.*
 
-Chess is a game that has remained relevant and entertaining for centuries. I aim to create this chess application to 
-improve my skills in Java, but I am also doing this to learn more about chess.
-
-### User Stories - Stage 1 (Don't forget to move this after!!!):
-- As a user, I would like to load a chessboard with the default piece layout.
-- I would like to tell the pieces where to move according to the rules of chess.
-- I would like to control both sides of the board from my device.
-- I would like to be able to capture a piece, and add it to a list of captures.
+### User Stories - Stage 1:
+- As a user, I would like to add an SCP with a number, name, containment procedures, description, object classification,
+and any additional notes.
+- I would like to be able to edit the information above for any existing SCP except for its number.
+- I would like to be able to delete an SCP from the catalogue.
+- I should be able to view all existing SCPs at once.
 

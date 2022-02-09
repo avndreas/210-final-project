@@ -9,18 +9,21 @@ public class Entity {
     private String containmentProcedures;
     private String description;
     private String addendum;
-    private boolean hasEntry;
 
-    public Entity(int itemNumber) {
+    public Entity(int itemNumber, String name, Classification objectClass, boolean contained,
+                  String containmentProcedures, String description, String addendum) {
         this.itemNumber = itemNumber;
-        this.hasEntry = false;
+        this.name = name;
     }
+
+
+    // setters
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void classifyEntity(Classification objectClass) {
+    public void setObjectClass(Classification objectClass) {
         this.objectClass = objectClass;
     }
 
@@ -39,6 +42,8 @@ public class Entity {
     public void setAddendum(String addendum) {
         this.addendum = addendum;
     }
+
+    // getters
 
     public int getItemNumber() {
         return this.itemNumber;
@@ -66,14 +71,6 @@ public class Entity {
 
     public String getAddendum() {
         return addendum;
-    }
-
-    public void setHasEntry(boolean hasEntry) {
-        this.hasEntry = hasEntry;
-    }
-
-    public boolean getHasEntry() {
-        return this.hasEntry;
     }
 
 

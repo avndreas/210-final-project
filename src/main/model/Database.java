@@ -12,10 +12,15 @@ public class Database {
 
     public void addSCP(Entity entity) {
         int itemNumber = entity.getItemNumber();
-        for (int i = 1; i < itemNumber; i++) {
-            if (!entity.getHasEntry()) {
-                //figure out how to let someone add an entry in a possibly infinite list that must stay in order
-            }
-        }
+        listOfSCPs.add(itemNumber, entity);
+    }
+
+    public Entity getSCP(int itemNumber) {
+        return listOfSCPs.get(itemNumber);
+    }
+
+    public void deleteSCP(int itemNumber) {
+        listOfSCPs.remove(itemNumber);
+        favourites.remove(favourites.indexOf(getSCP(itemNumber)));
     }
 }
