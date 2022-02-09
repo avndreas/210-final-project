@@ -10,13 +10,11 @@ public class Pawn implements Piece {
 
     private boolean isCaptured;
     private boolean isWhite;
-    private Tile position;
     private boolean firstMove;
 
-    public Pawn(boolean isWhite, Tile position) {
+    public Pawn(boolean isWhite) {
         this.isCaptured = false;
         this.isWhite = isWhite;
-        this.position = position;
     }
 
     @Override

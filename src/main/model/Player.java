@@ -14,4 +14,8 @@ public class Player {
     public void capture(Piece piece) {
         capturedPieces.add(piece);
     }
+
+    public List<Piece> getCaptures() {
+        return capturedPieces;
+    }
 }

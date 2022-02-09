@@ -17,8 +17,11 @@ public class ChessGameConsole {
     }
 
     private void startGame() {
+        chess = new Chess();
         boolean gameRunning = true;
         String command = null;
+        input = new Scanner(System.in);
+        input.useDelimiter("\n");
 
         while (gameRunning) {
             displayMenu();
@@ -38,17 +41,20 @@ public class ChessGameConsole {
     }
 
     private void displayMenu() {
-        System.out.println("\nEnter a tile's location containing a piece. To quit, type \"quit\".");
+        System.out.println("\nEnter a tile's location containing a piece, then the location you'd like to move it to.");
+        System.out.println("\nOr, type \"quit\" to quit.");
         // System.out.println("\nTo display the board, type \"board\".");
-        System.out.println("\nExample: To select your D2 pawn, type \"4,2\" ");
+        System.out.println("\nExample: To move your d2 pawn up by two, type \"4,2 4,4\" ");
     }
 
     private void processCommand(String command) { // NOT BUG-PROOF
-        int x = Integer.parseInt(command.substring(0,0));
-        int y = Integer.parseInt(command.substring(2,2));
-        System.out.println(x);
-        System.out.println(y);
-        chess.newTurn(x, y, 4, 4); //ADD REAL VALUES HERE LATER
+        System.out.println(command);
+        int x = Character.getNumericValue(command.charAt(0));
+        int y = Character.getNumericValue(command.charAt(2));
+        int newX = Character.getNumericValue(command.charAt(4));
+        int newY = Character.getNumericValue(command.charAt(6));
+
+        chess.newTurn(x, y, newX, newY);
     }
 
 }

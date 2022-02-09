@@ -1,9 +1,11 @@
 package model;
 
+import model.pieces.Pawn;
+
 public class Board {
-    private Tile[][] chessBoard;
     private static final int WIDTH = 8;
     private static final int HEIGHT = 8;
+    private Tile[][] chessBoard = new Tile[HEIGHT][WIDTH];
 
     // REQUIRES:
     // MODIFIES: this
@@ -16,10 +18,12 @@ public class Board {
     // MODIFIES: this
     // EFFECTS: Initializes a chessboard for the start of a game, currently sets every tile to be empty.
     public void setBoard() {
+        chessBoard[4][2] = new Tile(2, 4, new Pawn(true));
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
-                //will add if statement later to check if there's already a piece placed
-                this.chessBoard[x][y] = new Tile(x, y, null);
+                if (chessBoard[y][x] == null) {
+                    chessBoard[y][x] = new Tile(x, y, null);
+                }
             }
         }
     }
@@ -31,15 +35,16 @@ public class Board {
         if (x >= WIDTH || y >= HEIGHT) {
             return null;
         } else {
-            return chessBoard[x][y];
+            return chessBoard[y][x];
         }
     }
 
+    /*
     // REQUIRES: x and y coordinates be lower than WIDTH and HEIGHT respectively
     // MODIFIES: this
     // EFFECTS: Puts a piece on the given tile, replacing a previous piece if there is one.
     public void setTile(Piece piece) {
-        this.chessBoard[x][y].setTile(piece);
+        this.chessBoard[x][y].setTilePiece(piece);
     }
-
+    */
 }

@@ -19,7 +19,7 @@ public class Tile {
         return this;
     }
 
-    public void setTile(Piece piece) {
+    public void setTilePiece(Piece piece) {
         this.piece = piece;
     }
 
