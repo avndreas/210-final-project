@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 // Class for SCPs and all their stats.
 public class Entity {
 
@@ -7,17 +9,21 @@ public class Entity {
     private String name;
     private Classification objectClass;
     private boolean contained;
+    private List<TextBlock> entityInfo;
+    /*
     private String containmentProcedures;
     private String description;
     private String addendum;
+    */
 
     // REQUIRES: itemNumber > 0
     // MODIFIES:
     // EFFECTS: Instantiates a new SCP entity.
-    public Entity(int itemNumber, String name, Classification objectClass, boolean contained,
-                  String containmentProcedures, String description, String addendum) {
+    public Entity(int itemNumber, String name, Classification objectClass, boolean contained) {
         this.itemNumber = itemNumber;
         this.name = name;
+        this.objectClass = objectClass;
+        this.contained = contained;
     }
 
     // REQUIRES: integer > 0
@@ -50,6 +56,7 @@ public class Entity {
         this.contained = contained;
     }
 
+    /*
     public void setContainmentProcedures(String procedures) {
         this.containmentProcedures = procedures;
     }
@@ -61,6 +68,7 @@ public class Entity {
     public void setAddendum(String addendum) {
         this.addendum = addendum;
     }
+    */
 
     // getters
 
@@ -80,6 +88,7 @@ public class Entity {
         return contained;
     }
 
+    /*
     public String getContainmentProcedures() {
         return containmentProcedures;
     }
@@ -91,6 +100,6 @@ public class Entity {
     public String getAddendum() {
         return addendum;
     }
-
+    */
 
 }
