@@ -10,11 +10,6 @@ public class Entity {
     private Classification objectClass;
     private boolean contained;
     private List<TextBlock> entityInfo;
-    /*
-    private String containmentProcedures;
-    private String description;
-    private String addendum;
-    */
 
     // REQUIRES: itemNumber > 0
     // MODIFIES:
@@ -41,8 +36,15 @@ public class Entity {
         }
     }
 
+    public String generateEntry() {
+        String entry = "";
+        for (TextBlock entryText: entityInfo) { //broken if there's no data for the SCP
+            entry = entry + entryText.getBody();
+        }
+        return entry;
+    }
 
-    // setters
+    // getters and setters
 
     public void setName(String name) {
         this.name = name;
@@ -55,22 +57,6 @@ public class Entity {
     public void setContained(boolean contained) {
         this.contained = contained;
     }
-
-    /*
-    public void setContainmentProcedures(String procedures) {
-        this.containmentProcedures = procedures;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setAddendum(String addendum) {
-        this.addendum = addendum;
-    }
-    */
-
-    // getters
 
     public int getItemNumber() {
         return this.itemNumber;
@@ -87,19 +73,4 @@ public class Entity {
     public boolean isContained() {
         return contained;
     }
-
-    /*
-    public String getContainmentProcedures() {
-        return containmentProcedures;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getAddendum() {
-        return addendum;
-    }
-    */
-
 }

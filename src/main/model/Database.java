@@ -1,14 +1,17 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
     private List<Entity> listOfSCPs;
     private List<Entity> favourites;
     private static final int MIN_DIGITS = 3;
+    private static final Entity NULL_ENTITY = new Entity(0, "NULL", Classification.SAFE, true);
 
     public Database() {
-        // nothing happens
+        listOfSCPs = new ArrayList<>();
+        listOfSCPs.add(NULL_ENTITY);
     }
 
     public void addSCP(Entity entity) {
@@ -17,7 +20,13 @@ public class Database {
     }
 
     public Entity getSCP(int itemNumber) {
-        return listOfSCPs.get(itemNumber);
+        Entity tempEntity;
+        try {
+            tempEntity = listOfSCPs.get(itemNumber);
+        } catch (IndexOutOfBoundsException err) {
+            tempEntity = NULL_ENTITY;
+        }
+        return tempEntity;
     }
 
     public void deleteSCP(int itemNumber) {

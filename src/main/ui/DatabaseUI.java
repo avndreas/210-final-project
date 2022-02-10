@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 public class DatabaseUI {
     private Scanner input;
+    private Database database;
 
     // EFFECTS: Runs the SCP Database application
     public DatabaseUI() {
@@ -24,6 +25,7 @@ public class DatabaseUI {
 
         input = new Scanner(System.in);
         input.useDelimiter("\n");
+        database = new Database();
 
         while (keepRunning) {
             displayMenu();
@@ -40,6 +42,9 @@ public class DatabaseUI {
 
     }
 
+    // REQUIRES:
+    // MODIFIES:
+    // EFFECTS: Displays a menu of options
     private void displayMenu() {
         // list commands
         System.out.println("\nWelcome to the SCP Foundation's Database.");
@@ -57,6 +62,9 @@ public class DatabaseUI {
         System.out.println("\nTo add an SCP to your watchlist, type \"watchlist [number]\".");
         System.out.println("\nTo remove an SCP from your watchlist, type \"watchlist remove [number]\".");
 
+        // misc
+        System.out.println("\nTo quit the program, type \"quit\".");
+
     }
 
     private void processCommand(String command) {
@@ -67,7 +75,7 @@ public class DatabaseUI {
             case "list":
                 // list stuff
             case "view":
-                // view # stuff
+                System.out.println(database.getSCP(Integer.parseInt(processedCommand[1])).generateEntry());
             case "create":
                 // create stuff
             case "delete":
@@ -75,7 +83,7 @@ public class DatabaseUI {
             case "watchlist":
                 // watchlist stuff
             default:
-                // IDK
+                break;
         }
     }
 
