@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class DatabaseUI {
     private Scanner input;
     private Database database;
-
+    private static final int SERIES = 1;
     // EFFECTS: Runs the SCP Database application
     public DatabaseUI() {
         runDatabase();
@@ -22,7 +22,7 @@ public class DatabaseUI {
 
         input = new Scanner(System.in);
         input.useDelimiter("\n");
-        database = new Database();
+        database = new Database(SERIES);
 
         while (keepRunning) {
             displayMenu();
@@ -45,19 +45,26 @@ public class DatabaseUI {
     private void displayMenu() {
         // list commands
         System.out.println("\nWelcome to the SCP Foundation's Database.");
+        System.out.println("To see a list of recorded SCPs, type \"list\".");
+
+        /* TO BE ADDED AFTER PHASE 1
         System.out.println("To see a list of recorded SCPs, type \"list\"."
                 + "\n To see a specific range of entries, type \"list [start] [end]\" "
                 + "\n Example: list 1 10 will return a list of SCPs 1-10.");
+        */
 
         // specific SCP commands
         System.out.println("\nTo view the entry for a specific SCP, type \"view [number]\".");
         System.out.println("\nTo create a new SCP entry, type \"create\".");
+        System.out.println("\nTo edit an SCP entry, type \"edit [number]\". Note: You cannot change an SCP's number.");
         System.out.println("\nTo delete an SCP entry from the database, type \"delete [number]\".");
 
         // watchlist commands
+        /* TO BE ADDED AFTER PHASE 1
         System.out.println("\nTo view your watchlist, type \"watchlist\".");
         System.out.println("\nTo add an SCP to your watchlist, type \"watchlist [number]\".");
         System.out.println("\nTo remove an SCP from your watchlist, type \"watchlist remove [number]\".");
+        */
 
         // misc
         System.out.println("\nTo quit the program, type \"quit\".");
@@ -70,17 +77,27 @@ public class DatabaseUI {
 
         switch (rootCommand) {
             case "list":
+
+                if (processedCommand.length == 1) {
+                    System.out.println(database.listAll());
+                } else {
+                    System.out.println("This function has not been added yet.");
+                }
+                break;
                 // if processedCommand is 3 long && the second and third entries are numbers, then do list range
                 // else if its just list then list em all
                 // else do the dougie
             case "view":
                 System.out.println(database.getSCP(Integer.parseInt(processedCommand[1])).getEntry());
+                break;
             case "create":
                 // create stuff
+                break;
             case "delete":
                 // must decide by now whether or not nonexistent entries will be the 0 entity or fully null
-            case "watchlist":
-                // this should be fine youre smart me
+            //case "watchlist":
+                // for later
+                // break;
             default:
                 break;
         }

@@ -22,11 +22,11 @@ public class Entity {
         this.name = name;
         this.objectClass = objectClass;
         this.contained = contained;
-
         entityInfo = new ArrayList<TextBlock>();
         TextBlock newSCP = new TextBlock();
         newSCP.setTitle("[ACCESS DENIED]");
         newSCP.setDescription("You do not have authorization to view this entry.");
+        entityInfo.add(newSCP);
     }
 
     // REQUIRES: integer > 0
@@ -78,6 +78,8 @@ public class Entity {
     public void setContained(boolean contained) {
         this.contained = contained;
     }
+
+
 
     public int getItemNumber() {
         return this.itemNumber;
