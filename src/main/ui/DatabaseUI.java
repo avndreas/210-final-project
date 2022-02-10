@@ -70,15 +70,17 @@ public class DatabaseUI {
 
         switch (rootCommand) {
             case "list":
-                // list stuff
+                // if processedCommand is 3 long && the second and third entries are numbers, then do list range
+                // else if its just list then list em all
+                // else do the dougie
             case "view":
                 System.out.println(database.getSCP(Integer.parseInt(processedCommand[1])).getEntry());
             case "create":
                 // create stuff
             case "delete":
-                // delete stuff
+                // must decide by now whether or not nonexistent entries will be the 0 entity or fully null
             case "watchlist":
-                // watchlist stuff
+                // this should be fine youre smart me
             default:
                 break;
         }
