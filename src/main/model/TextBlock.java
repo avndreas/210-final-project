@@ -5,9 +5,8 @@ public class TextBlock implements EntityInfo {
     private String title;
     private String body;
 
-    public TextBlock(String title, String body) {
-        this.title = title;
-        this.body = body;
+    public TextBlock() {
+
     }
 
     // getters & setters

@@ -2,9 +2,6 @@ package ui;
 
 import model.Database;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class DatabaseUI {
@@ -75,7 +72,7 @@ public class DatabaseUI {
             case "list":
                 // list stuff
             case "view":
-                System.out.println(database.getSCP(Integer.parseInt(processedCommand[1])).generateEntry());
+                System.out.println(database.getSCP(Integer.parseInt(processedCommand[1])).getEntry());
             case "create":
                 // create stuff
             case "delete":

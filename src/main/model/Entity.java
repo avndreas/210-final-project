@@ -1,5 +1,8 @@
 package model;
 
+import javax.xml.soap.Text;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 // Class for SCPs and all their stats.
@@ -19,6 +22,11 @@ public class Entity {
         this.name = name;
         this.objectClass = objectClass;
         this.contained = contained;
+
+        entityInfo = new ArrayList<TextBlock>();
+        TextBlock newSCP = new TextBlock();
+        newSCP.setTitle("[ACCESS DENIED]");
+        newSCP.setDescription("You do not have authorization to view this entry.");
     }
 
     // REQUIRES: integer > 0
@@ -36,13 +44,26 @@ public class Entity {
         }
     }
 
-    public String generateEntry() {
+    // REQUIRES: entityInfo not empty
+    // MODIFIES:
+    // EFFECTS: Returns a string with the entire SCP's entry.
+    public String getEntry() {
         String entry = "";
-        for (TextBlock entryText: entityInfo) { //broken if there's no data for the SCP
+
+        for (TextBlock entryText: entityInfo) {
             entry = entry + entryText.getBody();
         }
+
+
         return entry;
     }
+
+    public void setEntry(String containProcedure, String description) {
+        TextBlock newText = new TextBlock();
+        newText.setContainmentProcedure(containProcedure);
+        newText.setDescription(description);
+    }
+
 
     // getters and setters
 
