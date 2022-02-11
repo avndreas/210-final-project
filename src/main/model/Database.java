@@ -82,6 +82,7 @@ public class Database {
         return entityList;
     }
 
+    /* CURRENTLY NOT USED BECAUSE I DON'T NEED FOOLPROOFING YET
     // REQUIRES: objectNum >= 0
     // MODIFIES:
     // EFFECTS: Returns true if the object number is within the database's series, false if there's no existing entity.
@@ -93,7 +94,7 @@ public class Database {
             return false;
         }
     }
-
+    */
     public Entity getSCP(int itemNumber) {
         return listOfSCPs.get(itemNumber);
     }

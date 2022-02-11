@@ -9,6 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// Test class for Entity
 class EntityTest {
     private Entity entity;
     private Entity blankEntity;

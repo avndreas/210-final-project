@@ -26,7 +26,7 @@ public class Entity {
     // REQUIRES: integer > 0
     // MODIFIES: itemNumber into a String
     // EFFECTS: If itemNumber < desiredLength, adds zeroes to front of number in order to make it so. Returns as String.
-    public String formatNumLength(int itemNumber, int desiredLength) {
+    public static String formatNumLength(int itemNumber, int desiredLength) {
         String formattedNum = "";
         if (Integer.toString(itemNumber).length() >= desiredLength) {
             return Integer.toString(itemNumber);
