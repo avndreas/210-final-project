@@ -48,6 +48,7 @@ public class Database {
         // favourites.remove(getSCP(itemNumber));
     }
 
+    /* IGNORE FOR PHASE 1 THIS IS NOT GOING TO BE USED YET
     // REQUIRES: integers start <= end
     // MODIFIES:
     // EFFECTS: Returns everything in listOfSCPs from one index to another with some formatting for readability.
@@ -64,6 +65,7 @@ public class Database {
         }
         return entityList;
     }
+    */
 
     // REQUIRES:
     // MODIFIES:
@@ -93,7 +95,6 @@ public class Database {
     }
 
     public Entity getSCP(int itemNumber) {
-
         return listOfSCPs.get(itemNumber);
     }
 
