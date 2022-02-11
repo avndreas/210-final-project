@@ -70,8 +70,6 @@ public class DatabaseUI {
         System.out.println("\nTo add an SCP to your watchlist, type \"watchlist [number]\".");
         System.out.println("\nTo remove an SCP from your watchlist, type \"watchlist remove [number]\".");
         */
-
-
     }
 
     // REQUIRES: Nonempty String command, user followed the input instructions (for now)
@@ -137,7 +135,7 @@ public class DatabaseUI {
         objectNumber = Integer.parseInt(input.nextLine());
         System.out.println("Enter the name of the new SCP: ");
         name = input.nextLine();
-        System.out.println("Enter the object classification for this SCP (SAFE, EUCLID, KETER, THAUMIEL, APOLLYON): ");
+        System.out.println("Enter the object classification for this SCP (ex. SAFE, EUCLID, KETER): ");
         classification = Classification.valueOf(input.nextLine());
         System.out.println("Is this entity currently contained by the foundation? Type \"yes\" or \"no\"");
         String response = input.nextLine();
@@ -154,8 +152,12 @@ public class DatabaseUI {
         }
     }
 
+    // REQUIRES: objectNumber >= 0
+    // MODIFIES: input
+    // EFFECTS: Guides the user through choosing which parts of the SCP to edit.
     private void editSCP(int objectNumber) {
         System.out.println("-----");
+        input.nextLine();
         System.out.println("Which information would you like to change? For name, classification, or "
                 + "containment status, type \"stats\". For containment procedures, description, or other text "
                 + "fields, type \"text\".");
@@ -167,6 +169,9 @@ public class DatabaseUI {
         }
     }
 
+    // REQUIRES: objectNumber >= 0
+    // MODIFIES: input, the entity belonging to objectNumber
+    // EFFECTS: Guides the user through editing name, object class, or containment status of an Entity.
     private void editStats(int objectNumber) {
         Entity entity = database.getSCP(objectNumber);
         String command;
@@ -190,6 +195,9 @@ public class DatabaseUI {
 
     }
 
+    // REQUIRES: objectNumber >= 0
+    // MODIFIES: input, objectNumber's Entity's entityInfo
+    // EFFECTS: Guides the user through adding or deleting a TextBlock object from the objectNumber's Entity.
     private void editText(int objectNumber) {
         Entity entity = database.getSCP(objectNumber);
         String command;
@@ -214,6 +222,9 @@ public class DatabaseUI {
         }
     }
 
+    // REQUIRES: entityNumber >= 0
+    // MODIFIES: database
+    // EFFECTS: Deletes an SCP from the database, replacing it with a default Entity.
     private void deleteSCP(int entityNumber) {
         database.deleteSCP(entityNumber);
         System.out.println("SCP deleted.");

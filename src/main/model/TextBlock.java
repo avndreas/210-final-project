@@ -1,5 +1,6 @@
 package model;
 
+// A block of text containing a title and a body.
 public class TextBlock {
 
     private String title;

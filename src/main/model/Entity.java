@@ -3,10 +3,10 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-// Class for SCPs and all their stats.
+// An Entity object, AKA an SCP, which has a number, name, class, containment status, and a list of text blocks.
 public class Entity {
 
-    private int itemNumber;
+    private final int itemNumber;
     private String name;
     private Classification objectClass;
     private boolean contained;
@@ -53,6 +53,9 @@ public class Entity {
         return entry;
     }
 
+    // REQUIRES: index > 0
+    // MODIFIES: entityInfo
+    // EFFECTS: Tries to delete an item from the entityInfo list, returns an error message if no object at that index.
     public void deleteEntry(int index) {
         try {
             entityInfo.remove(index);
@@ -62,6 +65,9 @@ public class Entity {
 
     }
 
+    // REQUIRES:
+    // MODIFIES: entityInfo
+    // EFFECTS: Adds a new TextBlock object (with a title and a body) to the entityInfo list.
     public void addEntry(String title, String body) {
         TextBlock newText = new TextBlock(title, body);
         entityInfo.add(newText);
@@ -81,8 +87,6 @@ public class Entity {
     public void setContained(boolean contained) {
         this.contained = contained;
     }
-
-
 
     public int getItemNumber() {
         return this.itemNumber;

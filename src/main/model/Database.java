@@ -7,16 +7,17 @@ import java.util.List;
 public class Database {
     private List<Entity> listOfSCPs;
     public static final int MIN_DIGITS = 3;
-    private static final Entity NULL_ENTITY = new Entity(0, "NULL", Classification.SAFE, true);
     private static final int ENTRIES_PER_SERIES = 1000;
     private static final String DEFAULT_NAME = "[ACCESS DENIED]";
     private static final Classification DEFAULT_CLASS = Classification.UNCLASSIFIED;
     private static final boolean DEFAULT_CONT = true;
 
+    // REQUIRES: series > 0
+    // MODIFIES: this
+    // EFFECTS: Initializes a database with a list of SCPs.
     public Database(int series) {
         listOfSCPs = new ArrayList<>();
         initializeSeries(series);
-        listOfSCPs.set(0, NULL_ENTITY);
     }
 
     // REQUIRES: int > 0
@@ -30,27 +31,12 @@ public class Database {
         }
     }
 
+    // REQUIRES:
+    // MODIFIES: listOfSCPs
+    // EFFECTS: Sets an entry into the database index of the SCP's item number.
     public void addSCP(Entity entity) {
         int itemNumber = entity.getItemNumber();
         listOfSCPs.set(itemNumber, entity);
-    }
-
-    public Entity getSCP(int itemNumber) {
-        // Entity tempEntity;
-
-        if (entityExists(itemNumber)) {
-            return listOfSCPs.get(itemNumber);
-        } else {
-            return NULL_ENTITY;
-        }
-
-        /*
-        try {
-            tempEntity = listOfSCPs.get(itemNumber);
-        } catch (IndexOutOfBoundsException err) {
-            tempEntity = NULL_ENTITY;
-        }
-        */
     }
 
     // REQUIRES: (series * ENTRIES_PER_SERIES) > itemNumber > 0
@@ -105,4 +91,11 @@ public class Database {
             return false;
         }
     }
+
+    public Entity getSCP(int itemNumber) {
+
+        return listOfSCPs.get(itemNumber);
+    }
+
+
 }
