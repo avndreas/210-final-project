@@ -11,6 +11,7 @@ public class DatabaseTest {
     private final int SERIES = 1;
     Database database;
     Entity testEntity;
+    Entity blankEntity;
 
     @BeforeEach
     void runBefore() {
@@ -19,24 +20,29 @@ public class DatabaseTest {
     }
 
     @Test
-    void initializeSeries() {
-        // Ask the TA how this should be done, since it is automatically called when you initialize a database.
-    }
-
-    @Test
     void addSCP() {
-        // stuff
+        assertNotEquals(testEntity, database.getSCP(database.getSCP(testEntity.getItemNumber()).getItemNumber()));
+        database.addSCP(testEntity);
+        assertEquals(testEntity, database.getSCP(database.getSCP(testEntity.getItemNumber()).getItemNumber()));
     }
 
     @Test
     void deleteSCP() {
-        // stuff
+        database.addSCP(testEntity);
+        assertEquals(testEntity, database.getSCP(database.getSCP(testEntity.getItemNumber()).getItemNumber()));
+        database.deleteSCP(testEntity.getItemNumber());
+        assertEquals(Database.DEFAULT_NAME,
+                database.getSCP(database.getSCP(testEntity.getItemNumber()).getItemNumber()).getName());
+        assertEquals(Database.DEFAULT_CLASS,
+                database.getSCP(database.getSCP(testEntity.getItemNumber()).getItemNumber()).getClassification());
+        assertEquals(Database.DEFAULT_CONT,
+                database.getSCP(database.getSCP(testEntity.getItemNumber()).getItemNumber()).isContained());
+        assertEquals(0 ,
+                database.getSCP(database.getSCP(testEntity.getItemNumber()).getItemNumber()).getRawInfo().size());
     }
 
     @Test
     void listAll() {
-
-
         // Testing on fresh list
         String defaultList = "Listing all SCPs";
         for (int i = 0; i < (SERIES * Database.ENTRIES_PER_SERIES); i++) {
