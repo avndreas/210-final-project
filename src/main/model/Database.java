@@ -109,4 +109,8 @@ public class Database {
             return false;
         }
     }
+
+    public void editSCP(int objectNumber) {
+        //listOfSCPs.get(objectNumber).
+    }
 }

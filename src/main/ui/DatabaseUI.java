@@ -50,27 +50,26 @@ public class DatabaseUI {
         System.out.println("\nWelcome to the SCP Foundation's Database.");
         System.out.println("To see a list of recorded SCPs, type \"list\".");
 
-        /* TO BE ADDED AFTER PHASE 1
-        System.out.println("To see a list of recorded SCPs, type \"list\"."
-                + "\n To see a specific range of entries, type \"list [start] [end]\" "
-                + "\n Example: list 1 10 will return a list of SCPs 1-10.");
-        */
-
         // specific SCP commands
         System.out.println("\nTo view the entry for a specific SCP, type \"view [number]\".");
         System.out.println("\nTo create a new SCP entry, type \"create\".");
         System.out.println("\nTo edit an SCP entry, type \"edit [number]\". Note: You cannot change an SCP's number.");
         System.out.println("\nTo delete an SCP entry from the database, type \"delete [number]\".");
 
-        // watchlist commands
+        // misc
+        System.out.println("\nTo quit the program, type \"quit\".");
+
         /* TO BE ADDED AFTER PHASE 1
+        System.out.println("To see a list of recorded SCPs, type \"list\"."
+                + "\n To see a specific range of entries, type \"list [start] [end]\" "
+                + "\n Example: list 1 10 will return a list of SCPs 1-10.");
+
+        // watchlist commands
         System.out.println("\nTo view your watchlist, type \"watchlist\".");
         System.out.println("\nTo add an SCP to your watchlist, type \"watchlist [number]\".");
         System.out.println("\nTo remove an SCP from your watchlist, type \"watchlist remove [number]\".");
         */
 
-        // misc
-        System.out.println("\nTo quit the program, type \"quit\".");
 
     }
 
@@ -91,15 +90,14 @@ public class DatabaseUI {
                             Integer.parseInt(processedCommand[2]));
                 }
                 break;
-                // if processedCommand is 3 long && the second and third entries are numbers, then do list range
-                // else if its just list then list em all
-                // else do the dougie
-                // note: this stuff will be done after Phase 1
             case "view":
                 System.out.println(database.getSCP(Integer.parseInt(processedCommand[1])).getEntry());
                 break;
             case "create":
                 createSCP();
+                break;
+            case "edit":
+                editSCP();
                 break;
             case "delete":
                 // must decide by now whether or not nonexistent entries will be the 0 entity or fully null
@@ -118,7 +116,7 @@ public class DatabaseUI {
         System.out.println(database.listAll());
     }
 
-    // REQUIRES:
+    // REQUIRES: start <= end
     // MODIFIES:
     // EFFECTS: Prints out all entries in the database within a given range.
     private void listEntries(int start, int end) {
@@ -135,14 +133,14 @@ public class DatabaseUI {
         Classification classification;
         boolean contained;
         System.out.println("Enter the number of the new SCP: ");
-        objectNumber = Integer.parseInt(input.nextLine()); // make this foolproof later
+        objectNumber = input.nextInt();
         System.out.println("Enter the name of the new SCP: ");
         name = input.nextLine();
         System.out.println("Enter the object classification for this SCP (SAFE, EUCLID, KETER, THAUMIEL, APOLLYON): ");
         classification = Classification.valueOf(input.nextLine());
         System.out.println("Is this entity currently contained by the foundation? Type \"yes\" or \"no\"");
         String response = input.nextLine();
-        if (response == "yes") {
+        if (response.equals("yes")) {
             contained = true;
         } else {
             contained = false;
@@ -150,5 +148,30 @@ public class DatabaseUI {
         System.out.println("SCP-" + objectNumber + " - " + name + " \nhas been added to the database.");
         Entity newEntry = new Entity(objectNumber, name, classification, contained);
         database.addSCP(newEntry);
+    }
+
+    private void editSCP() {
+        input.nextLine();
+        int objectNumber;
+        System.out.println("Which SCP would you like to edit?");
+        objectNumber = input.nextInt();
+        System.out.println("Which information would you like to change? For name, classification, or"
+                + "containment status, type \"stats\". For containment procedures, description, or other text"
+                + "fields, type \"text\".");
+        String response = input.nextLine();
+        if (response.equals("stats")) {
+            editStats(objectNumber);
+        } else {
+            editText(objectNumber);
+        }
+    }
+
+    private void editStats(int objectNumber) {
+        input.nextLine();
+
+    }
+
+    private void editText(int objectNumber) {
+
     }
 }
