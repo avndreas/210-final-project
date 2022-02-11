@@ -1,6 +1,8 @@
 package ui;
 
+import model.Classification;
 import model.Database;
+import model.Entity;
 
 import java.util.Scanner;
 
@@ -71,6 +73,9 @@ public class DatabaseUI {
 
     }
 
+    // REQUIRES: Nonempty String command, user followed the input instructions (for now)
+    // MODIFIES:
+    // EFFECTS: Processes user input to navigate and use the SCP Database
     private void processCommand(String command) {
         String[] processedCommand = command.split(" ", 0);
         String rootCommand = processedCommand[0];
@@ -79,19 +84,21 @@ public class DatabaseUI {
             case "list":
 
                 if (processedCommand.length == 1) {
-                    System.out.println(database.listAll());
+                    listEntries();
                 } else {
-                    System.out.println("This function has not been added yet.");
+                    listEntries(Integer.parseInt(processedCommand[1]),
+                            Integer.parseInt(processedCommand[2]));
                 }
                 break;
                 // if processedCommand is 3 long && the second and third entries are numbers, then do list range
                 // else if its just list then list em all
                 // else do the dougie
+                // note: this stuff will be done after Phase 1
             case "view":
                 System.out.println(database.getSCP(Integer.parseInt(processedCommand[1])).getEntry());
                 break;
             case "create":
-                // create stuff
+                createSCP();
                 break;
             case "delete":
                 // must decide by now whether or not nonexistent entries will be the 0 entity or fully null
@@ -103,4 +110,41 @@ public class DatabaseUI {
         }
     }
 
+    // REQUIRES:
+    // MODIFIES:
+    // EFFECTS: Prints out all entries in the database.
+    private void listEntries() {
+        System.out.println(database.listAll());
+    }
+
+    // REQUIRES:
+    // MODIFIES:
+    // EFFECTS: Prints out all entries in the database within a given range.
+    private void listEntries(int start, int end) {
+        System.out.println("This function has not been added yet.");
+    }
+
+    private void createSCP() {
+        input.nextLine();
+        int objectNumber;
+        String name;
+        Classification classification;
+        boolean contained;
+        System.out.println("Enter the number of the new SCP: ");
+        objectNumber = Integer.parseInt(input.nextLine()); // make this foolproof later
+        System.out.println("Enter the name of the new SCP: ");
+        name = input.nextLine();
+        System.out.println("Enter the object classification for this SCP (SAFE, EUCLID, KETER, THAUMIEL, APOLLYON): ");
+        classification = Classification.valueOf(input.nextLine());
+        System.out.println("Is this entity currently contained by the foundation? Type \"yes\" or \"no\"");
+        String response = input.nextLine();
+        if (response == "yes") {
+            contained = true;
+        } else {
+            contained = false;
+        }
+        System.out.println("SCP-" + objectNumber + " - " + name + " \nhas been added to the database.");
+        Entity newEntry = new Entity(objectNumber, name, classification, contained);
+        database.addSCP(newEntry);
+    }
 }

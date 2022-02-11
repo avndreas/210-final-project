@@ -64,12 +64,12 @@ public class Database {
     public void deleteSCP(int itemNumber) {
         Entity blankEntity = new Entity(itemNumber, DEFAULT_NAME, DEFAULT_CLASS, DEFAULT_CONT);
         listOfSCPs.set(itemNumber, blankEntity);
-        favourites.remove(favourites.indexOf(getSCP(itemNumber)));
+        favourites.remove(getSCP(itemNumber));
     }
 
     // REQUIRES: integers start <= end
     // MODIFIES:
-    // EFFECTS: Returns everything in listOfSCPs in order from one index to another.
+    // EFFECTS: Returns everything in listOfSCPs from one index to another with some formatting for readability.
     public String listFromTo(int start, int end) {
         Entity currentSCP;
         String entityList = "Listing all SCPs from " + start + "to " + end + ".";
@@ -84,6 +84,9 @@ public class Database {
         return entityList;
     }
 
+    // REQUIRES:
+    // MODIFIES:
+    // EFFECTS: Returns everything in listOfSCPs in order with some formatting for readability.
     public String listAll() {
         String entityList = "Listing all SCPs";
 
