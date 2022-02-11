@@ -25,7 +25,7 @@ public class Entity {
         entityInfo = new ArrayList<TextBlock>();
         TextBlock newSCP = new TextBlock();
         newSCP.setTitle("[ACCESS DENIED]");
-        newSCP.setDescription("You do not have authorization to view this entry.");
+        newSCP.setDescription("There is no available information for this SCP.");
         entityInfo.add(newSCP);
     }
 
@@ -46,7 +46,7 @@ public class Entity {
 
     // REQUIRES: entityInfo not empty
     // MODIFIES:
-    // EFFECTS: Returns a string with the entire SCP's entry.
+    // EFFECTS: Returns a string with the SCP's entire entry texts.
     public String getEntry() {
         String entry = "";
 
@@ -58,9 +58,9 @@ public class Entity {
         return entry;
     }
 
-    public void setEntry(String containProcedure, String description) {
+    public void setEntry(String title, String description) {
         TextBlock newText = new TextBlock();
-        newText.setContainmentProcedure(containProcedure);
+        newText.setContainmentProcedure(title);
         newText.setDescription(description);
     }
 

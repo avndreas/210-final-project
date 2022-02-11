@@ -3,6 +3,7 @@ package ui;
 import model.Classification;
 import model.Database;
 import model.Entity;
+import sun.security.rsa.RSAUtil;
 
 import java.util.Scanner;
 
@@ -79,10 +80,8 @@ public class DatabaseUI {
     private void processCommand(String command) {
         String[] processedCommand = command.split(" ", 0);
         String rootCommand = processedCommand[0];
-
         switch (rootCommand) {
             case "list":
-
                 if (processedCommand.length == 1) {
                     listEntries();
                 } else {
@@ -148,6 +147,13 @@ public class DatabaseUI {
         System.out.println("SCP-" + objectNumber + " - " + name + " \nhas been added to the database.");
         Entity newEntry = new Entity(objectNumber, name, classification, contained);
         database.addSCP(newEntry);
+
+        System.out.println("Would you like to edit anything, or add text for this or another SCP? "
+                + "Type \"yes\" or \"no\".");
+        response = input.nextLine();
+        if (response.equals("yes")) {
+            editSCP();
+        }
     }
 
     private void editSCP() {
@@ -168,6 +174,25 @@ public class DatabaseUI {
 
     private void editStats(int objectNumber) {
         input.nextLine();
+        Entity entity = database.getSCP(objectNumber);
+        String command;
+        System.out.println("Would you like to edit the name, object class, or containment status? \n"
+                + "Ex. type \"containment status\".");
+        command = input.nextLine();
+        switch (command) {
+            case "name":
+                System.out.println("Enter " + objectNumber + "'s new name: ");
+                entity.setName(input.nextLine());
+                break;
+            case "object class":
+                System.out.println("Enter " + objectNumber + "'s new object class: ");
+                entity.setObjectClass(Classification.valueOf(input.nextLine()));
+                break;
+            case "containment status":
+                System.out.println("Enter " + objectNumber + "'s new containment status, true or false: ");
+                entity.setContained(input.nextBoolean());
+                break;
+        }
 
     }
 
