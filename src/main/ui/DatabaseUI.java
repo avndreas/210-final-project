@@ -6,6 +6,7 @@ import model.Entity;
 
 import java.util.Scanner;
 
+// Database UI application
 public class DatabaseUI {
     private Scanner input;
     private Database database;
@@ -124,6 +125,9 @@ public class DatabaseUI {
         System.out.println("This function has not been added yet.");
     }
 
+    // REQUIRES:
+    // MODIFIES: input
+    // EFFECTS: Creates a new SCP object by asking the user for each parameter, then adds it to the database.
     private void createSCP() {
         input.nextLine();
         int objectNumber;

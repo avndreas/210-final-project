@@ -3,9 +3,10 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+// Represents a database containing Entity objects (also known as SCPs),
 public class Database {
     private List<Entity> listOfSCPs;
-    private List<Entity> favourites;
+    // private List<Entity> favourites; // for later
     private static final int MIN_DIGITS = 3;
     private static final Entity NULL_ENTITY = new Entity(0, "NULL", Classification.SAFE, true);
     private static final int ENTRIES_PER_SERIES = 1000;
@@ -64,7 +65,7 @@ public class Database {
     public void deleteSCP(int itemNumber) {
         Entity blankEntity = new Entity(itemNumber, DEFAULT_NAME, DEFAULT_CLASS, DEFAULT_CONT);
         listOfSCPs.set(itemNumber, blankEntity);
-        favourites.remove(getSCP(itemNumber));
+        // favourites.remove(getSCP(itemNumber));
     }
 
     // REQUIRES: integers start <= end
