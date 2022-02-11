@@ -103,4 +103,8 @@ public class Entity {
     public boolean isContained() {
         return contained;
     }
+
+    public List<TextBlock> getRawInfo() {
+        return this.entityInfo;
+    }
 }

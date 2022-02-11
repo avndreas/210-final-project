@@ -7,10 +7,10 @@ import java.util.List;
 public class Database {
     private List<Entity> listOfSCPs;
     public static final int MIN_DIGITS = 3;
-    private static final int ENTRIES_PER_SERIES = 1000;
-    private static final String DEFAULT_NAME = "[ACCESS DENIED]";
-    private static final Classification DEFAULT_CLASS = Classification.UNCLASSIFIED;
-    private static final boolean DEFAULT_CONT = true;
+    public static final int ENTRIES_PER_SERIES = 1000;
+    public static final String DEFAULT_NAME = "[ACCESS DENIED]";
+    public static final Classification DEFAULT_CLASS = Classification.UNCLASSIFIED;
+    public static final boolean DEFAULT_CONT = true;
 
     // REQUIRES: series > 0
     // MODIFIES: this
