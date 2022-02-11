@@ -133,6 +133,7 @@ public class DatabaseUI {
         boolean contained;
         System.out.println("Enter the number of the new SCP: ");
         objectNumber = input.nextInt();
+        input.nextInt();
         System.out.println("Enter the name of the new SCP: ");
         name = input.nextLine();
         System.out.println("Enter the object classification for this SCP (SAFE, EUCLID, KETER, THAUMIEL, APOLLYON): ");
@@ -161,6 +162,7 @@ public class DatabaseUI {
         int objectNumber;
         System.out.println("Which SCP would you like to edit?");
         objectNumber = input.nextInt();
+        input.nextInt();
         System.out.println("Which information would you like to change? For name, classification, or"
                 + "containment status, type \"stats\". For containment procedures, description, or other text"
                 + "fields, type \"text\".");
@@ -197,6 +199,24 @@ public class DatabaseUI {
     }
 
     private void editText(int objectNumber) {
-
+        Entity entity = database.getSCP(objectNumber);
+        String command;
+        System.out.println("Would you like to add a text block, or delete an existing one? \n"
+                + "Type \"add\" or \"edit\".");
+        command = input.nextLine();
+        if (command.equals("add")) {
+            String title;
+            String body;
+            System.out.println("What is the title of this new text block?");
+            title = input.nextLine();
+            System.out.println("What is the body text of this new text block?");
+            body = input.nextLine();
+            entity.addEntry(title, body);
+            System.out.println("Your new text block has been added.");
+        } else {
+            System.out.println(entity.getEntry());
+            System.out.println("What is the index of the block you'd like to delete?");
+            entity.deleteEntry(input.nextInt());
+        }
     }
 }

@@ -22,7 +22,7 @@ public class Database {
         listOfSCPs.set(0, NULL_ENTITY);
 
         addSCP(testEntity);
-        testEntity.setEntry("dont blink", "rebar and concrete peanut");
+        testEntity.addEntry("dont blink", "rebar and concrete peanut");
     }
 
     // REQUIRES: int > 0

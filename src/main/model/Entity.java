@@ -1,7 +1,5 @@
 package model;
 
-import javax.xml.soap.Text;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +21,6 @@ public class Entity {
         this.objectClass = objectClass;
         this.contained = contained;
         entityInfo = new ArrayList<TextBlock>();
-        TextBlock newSCP = new TextBlock();
-        newSCP.setTitle("[ACCESS DENIED]");
-        newSCP.setDescription("There is no available information for this SCP.");
-        entityInfo.add(newSCP);
     }
 
     // REQUIRES: integer > 0
@@ -51,17 +45,20 @@ public class Entity {
         String entry = "";
 
         for (TextBlock entryText: entityInfo) {
-            entry = entry + entryText.getBody();
+            entry = entry + entryText.getTitle() + "\n" + entryText.getBody() + "\n";
         }
 
 
         return entry;
     }
 
-    public void setEntry(String title, String description) {
-        TextBlock newText = new TextBlock();
-        newText.setContainmentProcedure(title);
-        newText.setDescription(description);
+    public void deleteEntry(int index) {
+        entityInfo.remove(index);
+    }
+
+    public void addEntry(String title, String body) {
+        TextBlock newText = new TextBlock(title, body);
+        entityInfo.add(newText);
     }
 
 
