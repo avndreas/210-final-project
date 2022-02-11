@@ -12,6 +12,7 @@ public class DatabaseUI {
     private Scanner input;
     private Database database;
     private static final int SERIES = 1;
+
     // EFFECTS: Runs the SCP Database application
     public DatabaseUI() {
         runDatabase();
@@ -77,6 +78,7 @@ public class DatabaseUI {
     // REQUIRES: Nonempty String command, user followed the input instructions (for now)
     // MODIFIES:
     // EFFECTS: Processes user input to navigate and use the SCP Database
+    @SuppressWarnings("methodlength")
     private void processCommand(String command) {
         String[] processedCommand = command.split(" ", 0);
         String rootCommand = processedCommand[0];
@@ -125,6 +127,7 @@ public class DatabaseUI {
     // REQUIRES:
     // MODIFIES: input
     // EFFECTS: Creates a new SCP object by asking the user for each parameter, then adds it to the database.
+    @SuppressWarnings("methodlength")
     private void createSCP() {
         input.nextLine();
         int objectNumber;
