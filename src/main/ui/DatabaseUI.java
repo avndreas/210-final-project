@@ -101,10 +101,8 @@ public class DatabaseUI {
                 editSCP(Integer.parseInt(processedCommand[1]));
                 break;
             case "delete":
-                // must decide by now whether or not nonexistent entries will be the 0 entity or fully null
-            //case "watchlist":
-                // for later
-                // break;
+                deleteSCP(Integer.parseInt(processedCommand[1]));
+                break;
             default:
                 break;
         }
@@ -211,6 +209,14 @@ public class DatabaseUI {
             System.out.println(entity.getEntry());
             System.out.println("What is the index of the block you'd like to delete?");
             entity.deleteEntry(Integer.parseInt(input.nextLine()));
+
+
         }
     }
+
+    private void deleteSCP(int entityNumber) {
+        database.deleteSCP(entityNumber);
+        System.out.println("SCP deleted.");
+    }
+
 }

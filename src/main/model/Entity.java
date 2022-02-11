@@ -54,7 +54,12 @@ public class Entity {
     }
 
     public void deleteEntry(int index) {
-        entityInfo.remove(index);
+        try {
+            entityInfo.remove(index);
+        } catch (IndexOutOfBoundsException error) {
+            System.out.println("IndexOutOfBoundsException error");
+        }
+
     }
 
     public void addEntry(String title, String body) {
