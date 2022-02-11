@@ -3,7 +3,6 @@ package ui;
 import model.Classification;
 import model.Database;
 import model.Entity;
-import sun.security.rsa.RSAUtil;
 
 import java.util.Scanner;
 
