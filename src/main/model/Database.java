@@ -6,23 +6,17 @@ import java.util.List;
 // Represents a database containing Entity objects (also known as SCPs),
 public class Database {
     private List<Entity> listOfSCPs;
-    // private List<Entity> favourites; // for later
-    private static final int MIN_DIGITS = 3;
+    public static final int MIN_DIGITS = 3;
     private static final Entity NULL_ENTITY = new Entity(0, "NULL", Classification.SAFE, true);
     private static final int ENTRIES_PER_SERIES = 1000;
     private static final String DEFAULT_NAME = "[ACCESS DENIED]";
     private static final Classification DEFAULT_CLASS = Classification.UNCLASSIFIED;
     private static final boolean DEFAULT_CONT = true;
 
-    private Entity testEntity = new Entity(173, "The Sculpture", Classification.EUCLID, true);
-
     public Database(int series) {
         listOfSCPs = new ArrayList<>();
         initializeSeries(series);
         listOfSCPs.set(0, NULL_ENTITY);
-
-        addSCP(testEntity);
-        testEntity.addEntry("dont blink", "rebar and concrete peanut");
     }
 
     // REQUIRES: int > 0
@@ -44,7 +38,7 @@ public class Database {
     public Entity getSCP(int itemNumber) {
         // Entity tempEntity;
 
-        if (entryExists(itemNumber)) {
+        if (entityExists(itemNumber)) {
             return listOfSCPs.get(itemNumber);
         } else {
             return NULL_ENTITY;
@@ -100,17 +94,15 @@ public class Database {
         return entityList;
     }
 
-
-    public boolean entryExists(int objectNum) {
+    // REQUIRES: objectNum >= 0
+    // MODIFIES:
+    // EFFECTS: Returns true if the object number is within the database's series, false if there's no existing entity.
+    public boolean entityExists(int objectNum) {
         try {
             listOfSCPs.get(objectNum);
             return true;
         } catch (IndexOutOfBoundsException err) {
             return false;
         }
-    }
-
-    public void editSCP(int objectNumber) {
-        //listOfSCPs.get(objectNumber).
     }
 }

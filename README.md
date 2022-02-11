@@ -18,8 +18,7 @@ an extremely entertaining world of horror. This project is a way to improve my p
 about this project.*
 
 ### User Stories - Stage 1:
-- As a user, I would like to add an SCP with a number, name, containment procedures, description, object classification,
-and any additional notes.
+- As a user, I would like to add an SCP with a number, name, classification, containment status, and any additional notes.
 - I would like to be able to edit the information above for any existing SCP except for its number.
 - I would like to be able to delete an SCP from the catalogue.
 - I should be able to view all existing SCPs at once.

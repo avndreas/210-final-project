@@ -58,7 +58,7 @@ public class DatabaseUI {
         System.out.println("\nTo delete an SCP entry from the database, type \"delete [number]\".");
 
         // misc
-        System.out.println("\nTo quit the program, type \"quit\".");
+        System.out.println("\nTo quit the program, type \"quit\".\n");
 
         /* TO BE ADDED AFTER PHASE 1
         System.out.println("To see a list of recorded SCPs, type \"list\"."
@@ -79,6 +79,7 @@ public class DatabaseUI {
     // EFFECTS: Processes user input to navigate and use the SCP Database
     @SuppressWarnings("methodlength")
     private void processCommand(String command) {
+
         String[] processedCommand = command.split(" ", 0);
         String rootCommand = processedCommand[0];
         switch (rootCommand) {
@@ -97,7 +98,7 @@ public class DatabaseUI {
                 createSCP();
                 break;
             case "edit":
-                editSCP();
+                editSCP(Integer.parseInt(processedCommand[1]));
                 break;
             case "delete":
                 // must decide by now whether or not nonexistent entries will be the 0 entity or fully null
@@ -128,45 +129,37 @@ public class DatabaseUI {
     // EFFECTS: Creates a new SCP object by asking the user for each parameter, then adds it to the database.
     @SuppressWarnings("methodlength")
     private void createSCP() {
+        System.out.println("-----");
         input.nextLine();
         int objectNumber;
         String name;
         Classification classification;
         boolean contained;
         System.out.println("Enter the number of the new SCP: ");
-        objectNumber = input.nextInt();
-        input.nextInt();
+        objectNumber = Integer.parseInt(input.nextLine());
         System.out.println("Enter the name of the new SCP: ");
         name = input.nextLine();
         System.out.println("Enter the object classification for this SCP (SAFE, EUCLID, KETER, THAUMIEL, APOLLYON): ");
         classification = Classification.valueOf(input.nextLine());
         System.out.println("Is this entity currently contained by the foundation? Type \"yes\" or \"no\"");
         String response = input.nextLine();
-        if (response.equals("yes")) {
-            contained = true;
-        } else {
-            contained = false;
-        }
+        contained = response.equals("yes");
         System.out.println("SCP-" + objectNumber + " - " + name + " \nhas been added to the database.");
         Entity newEntry = new Entity(objectNumber, name, classification, contained);
         database.addSCP(newEntry);
-
-        System.out.println("Would you like to edit anything, or add text for this or another SCP? "
+        System.out.println("-----");
+        System.out.println("Would you like to edit anything, or add text for this SCP? "
                 + "Type \"yes\" or \"no\".");
         response = input.nextLine();
         if (response.equals("yes")) {
-            editSCP();
+            editSCP(objectNumber);
         }
     }
 
-    private void editSCP() {
-        input.nextLine();
-        int objectNumber;
-        System.out.println("Which SCP would you like to edit?");
-        objectNumber = input.nextInt();
-        input.nextInt();
-        System.out.println("Which information would you like to change? For name, classification, or"
-                + "containment status, type \"stats\". For containment procedures, description, or other text"
+    private void editSCP(int objectNumber) {
+        System.out.println("-----");
+        System.out.println("Which information would you like to change? For name, classification, or "
+                + "containment status, type \"stats\". For containment procedures, description, or other text "
                 + "fields, type \"text\".");
         String response = input.nextLine();
         if (response.equals("stats")) {
@@ -177,7 +170,6 @@ public class DatabaseUI {
     }
 
     private void editStats(int objectNumber) {
-        input.nextLine();
         Entity entity = database.getSCP(objectNumber);
         String command;
         System.out.println("Would you like to edit the name, object class, or containment status? \n"
@@ -194,7 +186,7 @@ public class DatabaseUI {
                 break;
             case "containment status":
                 System.out.println("Enter " + objectNumber + "'s new containment status, true or false: ");
-                entity.setContained(input.nextBoolean());
+                entity.setContained(input.nextLine().equals("true"));
                 break;
         }
 
@@ -204,7 +196,7 @@ public class DatabaseUI {
         Entity entity = database.getSCP(objectNumber);
         String command;
         System.out.println("Would you like to add a text block, or delete an existing one? \n"
-                + "Type \"add\" or \"edit\".");
+                + "Type \"add\" or \"delete\".");
         command = input.nextLine();
         if (command.equals("add")) {
             String title;
@@ -218,7 +210,7 @@ public class DatabaseUI {
         } else {
             System.out.println(entity.getEntry());
             System.out.println("What is the index of the block you'd like to delete?");
-            entity.deleteEntry(input.nextInt());
+            entity.deleteEntry(Integer.parseInt(input.nextLine()));
         }
     }
 }

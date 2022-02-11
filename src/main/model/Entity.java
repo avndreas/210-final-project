@@ -42,7 +42,8 @@ public class Entity {
     // MODIFIES:
     // EFFECTS: Returns a string with the SCP's entire entry texts.
     public String getEntry() {
-        String entry = "";
+        String entry = "SCP-" + formatNumLength(this.getItemNumber(), Database.MIN_DIGITS)
+                + " - " + name + "\n ----- \n";
 
         for (TextBlock entryText: entityInfo) {
             entry = entry + entryText.getTitle() + "\n" + entryText.getBody() + "\n";
