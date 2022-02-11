@@ -3,6 +3,7 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.xml.soap.Text;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +62,20 @@ class EntityTest {
 
     @Test
     void addEntry() {
+        TextBlock testEntry1 = new TextBlock("Addendum", "do not hug either");
+        entity.addEntry("Addendum", "do not hug either");
+        assertEquals(testEntry1.getTitle(), entity.getRawInfo().get(0).getTitle());
+        assertEquals(testEntry1.getBody(), entity.getRawInfo().get(0).getBody());
 
+        entity.addEntry("Interview with SCP-173:", "Dr. [REDACTED]: Can you hear me? \n"
+                + "Dr. [REDACTED] blinks, and SCP-173 immediately breaks his neck. \n"
+                + "End of interview");
+
+        TextBlock testEntry2 = new TextBlock("Interview with SCP-173:",
+                "Dr. [REDACTED]: Can you hear me? \n"
+                        + "Dr. [REDACTED] blinks, and SCP-173 immediately breaks his neck. \n"
+                        + "End of interview");
+        assertEquals(testEntry2.getTitle(), entity.getRawInfo().get(1).getTitle());
+        assertEquals(testEntry2.getBody(), entity.getRawInfo().get(1).getBody());
     }
 }
