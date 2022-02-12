@@ -79,4 +79,25 @@ class EntityTest {
         assertEquals(testEntry2.getTitle(), entity.getRawInfo().get(1).getTitle());
         assertEquals(testEntry2.getBody(), entity.getRawInfo().get(1).getBody());
     }
+
+    @Test
+    void setName() {
+        assertNotEquals("Amogus", entity.getName());
+        entity.setName("Amogus");
+        assertEquals("Amogus", entity.getName());
+    }
+
+    @Test
+    void setObjectClass() {
+        assertNotEquals(Classification.SAFE, entity.getClassification());
+        entity.setObjectClass(Classification.SAFE);
+        assertEquals(Classification.SAFE, entity.getClassification());
+    }
+
+    @Test
+    void setContained() {
+        assertTrue(entity.isContained());
+        entity.setContained(false);
+        assertFalse(entity.isContained());
+    }
 }

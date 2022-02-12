@@ -11,17 +11,10 @@ public class TextBlock {
         this.body = body;
     }
 
-    // getters & setters
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    // getters (setters will be added after phase 1)
 
     public String getTitle() {
         return this.title;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
     }
 
     public String getBody() {
