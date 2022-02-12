@@ -10,7 +10,7 @@ This application will:
 - Be a catalogue of various different "SCPs", each being designated a unique number.
 - Allow the user to add descriptions, containment procedures, danger levels, and extra information on every SCP.
 - Display images for SCPs when available.
-- Allow the user to delete or edit any SCP entry.
+- Allow the user to edit or delete any SCP entry.
 
 *The SCP foundation is one of the largest community projects on the internet. Many people work together to create
 an extremely entertaining world of horror. This project is a way to improve my programming skills while learning more

@@ -9,6 +9,6 @@ public class TextBlockTest {
 
     @BeforeEach
     void runBefore() {
-        // stuff
+        // this class only has getters or setters
     }
 }

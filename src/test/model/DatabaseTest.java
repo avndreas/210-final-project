@@ -59,7 +59,6 @@ public class DatabaseTest {
                     + " - " + database.getSCP(i).getName();
         }
         assertEquals(defaultList, database.listAll());
-        // add more entries and test if there's time later
     }
 
     /* May be used at a later date

@@ -6,7 +6,7 @@ import model.Entity;
 
 import java.util.Scanner;
 
-// Database UI application
+// Database console UI application
 public class DatabaseUI {
     private Scanner input;
     private Database database;
