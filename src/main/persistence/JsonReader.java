@@ -2,13 +2,14 @@ package persistence;
 
 import model.Database;
 import model.Entity;
-import model.TextBlock;
+import model.Classification;
 import org.json.*;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 // REFERENCE: CPSC 210 example files
@@ -23,17 +24,17 @@ public class JsonReader {
 
     // EFFECTS: reads workroom from file and returns it;
     // throws IOException if an error occurs reading data from file
-    public WorkRoom read() throws IOException {
+    public Database read() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
-        return parseWorkRoom(jsonObject);
+        return parseDatabase(jsonObject);
     }
 
     // EFFECTS: reads source file as string and returns it
     private String readFile(String source) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
 
-        try (Stream<String> stream = Files.lines( Paths.get(source), StandardCharsets.UTF_8)) {
+        try (Stream<String> stream = Files.lines(Paths.get(source), StandardCharsets.UTF_8)) {
             stream.forEach(s -> contentBuilder.append(s));
         }
 
@@ -41,29 +42,30 @@ public class JsonReader {
     }
 
     // EFFECTS: parses workroom from JSON object and returns it
-    private WorkRoom parseWorkRoom(JSONObject jsonObject) {
-        String name = jsonObject.getString("name");
-        WorkRoom wr = new WorkRoom(name);
-        addThingies(wr, jsonObject);
-        return wr;
+    private Database parseDatabase(JSONObject jsonObject) {
+        int series = jsonObject.getInt("series");
+        Database d = new Database(series);
+        addEntities(d, jsonObject);
+        return d;
     }
 
-    // MODIFIES: wr
+    // MODIFIES: d
     // EFFECTS: parses thingies from JSON object and adds them to workroom
-    private void addThingies(WorkRoom wr, JSONObject jsonObject) {
-        JSONArray jsonArray = jsonObject.getJSONArray("thingies");
+    private void addEntities(Database d, JSONObject jsonObject) {
+        JSONArray jsonArray = jsonObject.getJSONArray("listOfSCPs");
         for (Object json : jsonArray) {
             JSONObject nextThingy = (JSONObject) json;
-            addThingy(wr, nextThingy);
+            addEntity(Arrays.asList(jsonArray).indexOf(json), d, nextThingy);
         }
     }
 
-    // MODIFIES: wr
+    // MODIFIES: d
     // EFFECTS: parses thingy from JSON object and adds it to workroom
-    private void addThingy(WorkRoom wr, JSONObject jsonObject) {
+    private void addEntity(int number, Database d, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
-        Category category = Category.valueOf(jsonObject.getString("category"));
-        Thingy thingy = new Thingy(name, category);
-        wr.addThingy(thingy);
+        Classification objectClass = Classification.valueOf(jsonObject.getString("objectClass"));
+        boolean contained = jsonObject.getBoolean("contained");
+        Entity entity = new Entity(number, name, objectClass, contained);
+        d.addSCP(entity);
     }
 }
