@@ -1,0 +1,49 @@
+{
+  "listOfSCPs": [
+    {
+      "name": "Test SCP Zero",
+      "objectClass": "SAFE",
+      "contained": false,
+      "entityInfo": [
+        {
+          "title": "Special Containment Procedures",
+          "body": "stop opening this file"
+        },
+        {
+          "title": "Description",
+          "body": "some guy who keeps yelling"
+        }
+      ]
+    },
+    {
+      "name": "When Day Breaks",
+      "objectClass": "APOLLYON",
+      "contained": false,
+      "entityInfo": [
+        {
+          "title": "Special Containment Procedures",
+          "body": "literally nothing you can do man"
+        },
+        {
+          "title": "Description",
+          "body": "one day the sun might turn angry and melt everyone into blobs"
+        }
+      ]
+    },
+    {
+      "name": "The \"Living\" Room",
+      "objectClass": "EUCLID",
+      "contained": true,
+      "entityInfo": [
+        {
+          "title": "Special Containment Procedures",
+          "body": "Keep it connected to power at all times."
+        },
+        {
+          "title": "Description",
+          "body": "A tumorous, fleshy growth with a volume of roughly 60 meters cubed containing a living room. It eats people and turns them into furniture."
+        }
+      ]
+    }
+  ]
+}
