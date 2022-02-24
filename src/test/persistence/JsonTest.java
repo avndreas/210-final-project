@@ -1,11 +1,25 @@
 package persistence;
 
-import model.Category;
-import model.Thingy;
+import model.Classification;
+import model.Entity;
+import model.TextBlock;
 
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+// REFERENCE: CPSC 210 example files
+// Test class for json stuff
 public class JsonTest {
-    protected void checkThingy(String name, Category category, Thingy thingy) {
-        assertEquals(name, thingy.getName());
-        assertEquals(category, thingy.getCategory());
+    protected void checkEntity(int itemNumber, String name, Classification objectClass, boolean contained,
+                               ArrayList<TextBlock> entityInfo, Entity entity) {
+        assertEquals(itemNumber, entity.getItemNumber());
+        assertEquals(name, entity.getName());
+        assertEquals(objectClass, entity.getClassification());
+        assertEquals(contained, entity.isContained());
+        for (TextBlock t: entityInfo) {
+            assertEquals(t.getTitle(), entity.getRawInfo().get(entityInfo.indexOf(t)).getTitle());
+            assertEquals(t.getBody(), entity.getRawInfo().get(entityInfo.indexOf(t)).getBody());
+        }
     }
 }

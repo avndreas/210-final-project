@@ -44,8 +44,8 @@ class JsonReaderTest extends JsonTest {
             assertEquals("My work room", wr.getName());
             List<Thingy> thingies = wr.getThingies();
             assertEquals(2, thingies.size());
-            checkThingy("needle", Category.STITCHING, thingies.get(0));
-            checkThingy("saw", Category.WOODWORK, thingies.get(1));
+            checkEntity("needle", Category.STITCHING, thingies.get(0));
+            checkEntity("saw", Category.WOODWORK, thingies.get(1));
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
