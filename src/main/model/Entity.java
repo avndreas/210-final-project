@@ -77,6 +77,7 @@ public class Entity implements Writable {
         entityInfo.add(newText);
     }
 
+    // REFERENCE: CPSC 210 example files
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -89,6 +90,7 @@ public class Entity implements Writable {
         return json;
     }
 
+    // REFERENCE: CPSC 210 example files
     // EFFECTS: returns things in this workroom as a JSON array
     private JSONArray textBlocksToJson() {
         JSONArray jsonArray = new JSONArray();

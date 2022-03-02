@@ -10,13 +10,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+// REFERENCE: CPSC 210 example files
 class JsonReaderTest extends JsonTest {
 
     @Test
     void testReaderNonExistentFile() {
         JsonReader reader = new JsonReader("./data/noSuchFile.json");
         try {
-            WorkRoom wr = reader.read();
+            Database d = reader.read();
             fail("IOException expected");
         } catch (IOException e) {
             // pass
@@ -24,27 +25,43 @@ class JsonReaderTest extends JsonTest {
     }
 
     @Test
-    void testReaderEmptyWorkRoom() {
-        JsonReader reader = new JsonReader("./data/testReaderEmptyWorkRoom.json");
+    void testReaderEmptyDatabase() {
+        JsonReader reader = new JsonReader("./data/testReaderEmptyDatabase.json");
         try {
-            WorkRoom wr = reader.read();
-            assertEquals("My work room", wr.getName());
-            assertEquals(0, wr.numThingies());
+            Database d = reader.read();
+            assertEquals(1, d.getSeries());
+
+            String defaultList = "Listing all SCPs";
+            for (int i = 0; i < (Database.ENTRIES_PER_SERIES); i++) {
+                defaultList = defaultList + "\n SCP-" + Entity.formatNumLength(i, Database.MIN_DIGITS)
+                        + " - " + Database.DEFAULT_NAME;
+            }
+
+            assertEquals(defaultList, d.listAll());
+
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
     }
 
     @Test
-    void testReaderGeneralWorkRoom() {
-        JsonReader reader = new JsonReader("./data/testReaderGeneralWorkRoom.json");
+    void testReaderGeneralDatabase() {
+        JsonReader reader = new JsonReader("./data/testReaderGeneralDatabase.json");
         try {
-            WorkRoom wr = reader.read();
-            assertEquals("My work room", wr.getName());
-            List<Thingy> thingies = wr.getThingies();
-            assertEquals(2, thingies.size());
-            checkEntity("needle", Category.STITCHING, thingies.get(0));
-            checkEntity("saw", Category.WOODWORK, thingies.get(1));
+            Database d = reader.read();
+            assertEquals(1, d.getSeries());
+
+            String defaultList = "Listing all SCPs";
+            for (int i = 0; i < (Database.ENTRIES_PER_SERIES); i++) {
+
+                if (i == 2) {
+                    defaultList = defaultList + "\n SCP-" + Entity.formatNumLength(i, Database.MIN_DIGITS)
+                            + " - " + "Test Entity";
+                } else {
+                    defaultList = defaultList + "\n SCP-" + Entity.formatNumLength(i, Database.MIN_DIGITS)
+                            + " - " + Database.DEFAULT_NAME;
+                }
+            }
         } catch (IOException e) {
             fail("Couldn't read from file");
         }

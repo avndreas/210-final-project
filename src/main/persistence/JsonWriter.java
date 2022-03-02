@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
+// REFERENCE: CPSC 210 example files
 // Represents a writer that writes JSON representation of workroom to file
 public class JsonWriter {
     private static final int TAB = 4;

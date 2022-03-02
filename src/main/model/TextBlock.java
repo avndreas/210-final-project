@@ -15,6 +15,7 @@ public class TextBlock implements Writable {
         this.body = body;
     }
 
+    // REFERENCE: CPSC 210 example files
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

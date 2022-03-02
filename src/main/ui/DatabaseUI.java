@@ -125,6 +125,7 @@ public class DatabaseUI {
         }
     }
 
+    // REFERENCE: CPSC 210 example files
     private void readJson() {
         try {
             database = jsonReader.read();
@@ -134,6 +135,7 @@ public class DatabaseUI {
 
     }
 
+    // REFERENCE: CPSC 210 example files
     private void saveJson() {
         try {
             jsonWriter.open();

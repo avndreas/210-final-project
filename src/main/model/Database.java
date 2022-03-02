@@ -105,6 +105,7 @@ public class Database implements Writable {
         return listOfSCPs.get(itemNumber);
     }
 
+    // REFERENCE: CPSC 210 example files
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -113,6 +114,7 @@ public class Database implements Writable {
         return json;
     }
 
+    // REFERENCE: CPSC 210 example files
     // EFFECTS: returns things in this workroom as a JSON array
     private JSONArray entitiesToJson() {
         JSONArray jsonArray = new JSONArray();
@@ -122,6 +124,10 @@ public class Database implements Writable {
         }
 
         return jsonArray;
+    }
+
+    public int getSeries() {
+        return series;
     }
 
 }
