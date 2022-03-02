@@ -1,21 +1,27 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // Represents a database containing Entity objects (also known as SCPs),
-public class Database {
+public class Database implements Writable {
     private List<Entity> listOfSCPs;
     public static final int MIN_DIGITS = 3;
     public static final int ENTRIES_PER_SERIES = 1000;
     public static final String DEFAULT_NAME = "[ACCESS DENIED]";
     public static final Classification DEFAULT_CLASS = Classification.UNCLASSIFIED;
     public static final boolean DEFAULT_CONT = true;
+    private int series;
 
     // REQUIRES: series > 0
     // MODIFIES: this
     // EFFECTS: Initializes a database with a list of SCPs.
     public Database(int series) {
+        this.series = series;
         listOfSCPs = new ArrayList<>();
         initializeSeries(series);
     }
@@ -99,5 +105,23 @@ public class Database {
         return listOfSCPs.get(itemNumber);
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("series", series);
+        json.put("listOfSCPs", entitiesToJson());
+        return json;
+    }
+
+    // EFFECTS: returns things in this workroom as a JSON array
+    private JSONArray entitiesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Entity e : listOfSCPs) {
+            jsonArray.put(e.toJson());
+        }
+
+        return jsonArray;
+    }
 
 }

@@ -1,10 +1,14 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // An Entity object, AKA an SCP, which has a number, name, class, containment status, and a list of text blocks.
-public class Entity {
+public class Entity implements Writable {
 
     private final int itemNumber;
     private String name;
@@ -73,6 +77,24 @@ public class Entity {
         entityInfo.add(newText);
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("number", itemNumber);
+        json.put("name", name);
+        json.put("objectClass", objectClass);
+        json.put("contained", contained);
+
+        JSONArray jsonArray = new JSONArray();
+
+        for (TextBlock t: entityInfo) {
+            jsonArray.put(t.toJson());
+        }
+
+        json.put("entityInfo", jsonArray);
+
+        return json;
+    }
 
     // getters and setters
 

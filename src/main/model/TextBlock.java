@@ -1,7 +1,11 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 // A block of text containing a title and a body.
-public class TextBlock {
+public class TextBlock implements Writable {
 
     private String title;
     private String body;
@@ -9,6 +13,15 @@ public class TextBlock {
     public TextBlock(String title, String body) {
         this.title = title;
         this.body = body;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("title", title);
+        json.put("body", body);
+
+        return json;
     }
 
     // getters (setters will be added after phase 1)
