@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 // REFERENCE: CPSC 210 example files
-// Represents a reader that reads workroom from JSON data stored in file
+// Represents a reader that reads a database from JSON data stored in file
 public class JsonReader {
     private String source;
 
@@ -22,7 +22,7 @@ public class JsonReader {
         this.source = source;
     }
 
-    // EFFECTS: reads workroom from file and returns it;
+    // EFFECTS: reads database from file and returns it;
     // throws IOException if an error occurs reading data from file
     public Database read() throws IOException {
         String jsonData = readFile(source);
@@ -41,7 +41,7 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
-    // EFFECTS: parses workroom from JSON object and returns it
+    // EFFECTS: parses database from JSON object and returns it
     private Database parseDatabase(JSONObject jsonObject) {
         int series = jsonObject.getInt("series");
         Database d = new Database(series);
@@ -50,22 +50,29 @@ public class JsonReader {
     }
 
     // MODIFIES: d
-    // EFFECTS: parses thingies from JSON object and adds them to workroom
+    // EFFECTS: parses entities from JSON object and adds them to database
     private void addEntities(Database d, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("listOfSCPs");
         for (Object json : jsonArray) {
-            JSONObject nextThingy = (JSONObject) json;
-            addEntity(Arrays.asList(jsonArray).indexOf(json), d, nextThingy);
+            JSONObject nextEntity = (JSONObject) json;
+            addEntity(d, nextEntity);
         }
     }
 
     // MODIFIES: d
-    // EFFECTS: parses thingy from JSON object and adds it to workroom
-    private void addEntity(int number, Database d, JSONObject jsonObject) {
+    // EFFECTS: parses Entity from JSON object and adds it to the database
+    private void addEntity(Database d, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
+        int number = jsonObject.getInt("number");
         Classification objectClass = Classification.valueOf(jsonObject.getString("objectClass"));
         boolean contained = jsonObject.getBoolean("contained");
         Entity entity = new Entity(number, name, objectClass, contained);
+
+        for (Object entry: jsonObject.getJSONArray("entityInfo")) {
+            JSONObject nextEntry = (JSONObject) entry;
+            entity.addEntry(nextEntry.getString("title"), nextEntry.getString("body"));
+        }
+
         d.addSCP(entity);
     }
 }

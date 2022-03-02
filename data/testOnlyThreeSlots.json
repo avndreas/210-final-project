@@ -1,6 +1,7 @@
 {
   "listOfSCPs": [
     {
+      "number": 0,
       "name": "Test SCP Zero",
       "objectClass": "SAFE",
       "contained": false,
@@ -16,6 +17,7 @@
       ]
     },
     {
+      "number": 1,
       "name": "When Day Breaks",
       "objectClass": "APOLLYON",
       "contained": false,
@@ -31,6 +33,7 @@
       ]
     },
     {
+      "number": 2,
       "name": "The \"Living\" Room",
       "objectClass": "EUCLID",
       "contained": true,

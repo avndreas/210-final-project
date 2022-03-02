@@ -1,8 +1,7 @@
 package persistence;
 
-import model.Category;
-import model.Thingy;
-import model.WorkRoom;
+import model.Entity;
+import model.Database;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

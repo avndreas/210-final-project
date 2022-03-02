@@ -3,7 +3,9 @@ package ui;
 import model.Classification;
 import model.Database;
 import model.Entity;
+import persistence.JsonReader;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 // Database console UI application
@@ -56,6 +58,7 @@ public class DatabaseUI {
         System.out.println("\nTo create a new SCP entry, type \"create\".");
         System.out.println("\nTo edit an SCP entry, type \"edit [number]\". Note: You cannot change an SCP's number.");
         System.out.println("\nTo delete an SCP entry from the database, type \"delete [number]\".");
+        System.out.println("\nTo load from a file, type \"load\".");
 
         // misc
         System.out.println("\nTo quit the program, type \"quit\".\n");
@@ -101,9 +104,22 @@ public class DatabaseUI {
             case "delete":
                 deleteSCP(Integer.parseInt(processedCommand[1]));
                 break;
+            case "load":
+                readJson();
+                break;
             default:
                 break;
         }
+    }
+
+    private void readJson() {
+        JsonReader saveFile = new JsonReader("data/testOnlyThreeSlots.json"); // change this later !!!
+        try {
+            database = saveFile.read();
+        } catch (IOException e) {
+            System.out.println("Error reading the file. Current save has not been altered.");
+        }
+
     }
 
     // REQUIRES:
