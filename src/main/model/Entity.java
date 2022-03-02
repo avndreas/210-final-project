@@ -84,16 +84,20 @@ public class Entity implements Writable {
         json.put("name", name);
         json.put("objectClass", objectClass);
         json.put("contained", contained);
+        json.put("entityInfo", textBlocksToJson());
 
+        return json;
+    }
+
+    // EFFECTS: returns things in this workroom as a JSON array
+    private JSONArray textBlocksToJson() {
         JSONArray jsonArray = new JSONArray();
 
-        for (TextBlock t: entityInfo) {
+        for (TextBlock t : entityInfo) {
             jsonArray.put(t.toJson());
         }
 
-        json.put("entityInfo", jsonArray);
-
-        return json;
+        return jsonArray;
     }
 
     // getters and setters

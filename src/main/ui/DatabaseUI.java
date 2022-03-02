@@ -4,18 +4,27 @@ import model.Classification;
 import model.Database;
 import model.Entity;
 import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
 // Database console UI application
 public class DatabaseUI {
+    private static final String JSON_STORE = "./data/database.json";
     private Scanner input;
     private Database database;
     private static final int SERIES = 1;
 
+    private JsonReader jsonReader;
+    private JsonWriter jsonWriter;
+
+
     // EFFECTS: Runs the SCP Database application
     public DatabaseUI() {
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         runDatabase();
     }
 
@@ -59,6 +68,7 @@ public class DatabaseUI {
         System.out.println("\nTo edit an SCP entry, type \"edit [number]\". Note: You cannot change an SCP's number.");
         System.out.println("\nTo delete an SCP entry from the database, type \"delete [number]\".");
         System.out.println("\nTo load from a file, type \"load\".");
+        System.out.println("\nTo save the current database, type \"save\".");
 
         // misc
         System.out.println("\nTo quit the program, type \"quit\".\n");
@@ -107,19 +117,32 @@ public class DatabaseUI {
             case "load":
                 readJson();
                 break;
+            case "save":
+                saveJson();
+                break;
             default:
                 break;
         }
     }
 
     private void readJson() {
-        JsonReader saveFile = new JsonReader("data/testOnlyThreeSlots.json"); // change this later !!!
         try {
-            database = saveFile.read();
+            database = jsonReader.read();
         } catch (IOException e) {
             System.out.println("Error reading the file. Current save has not been altered.");
         }
 
+    }
+
+    private void saveJson() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(database);
+            jsonWriter.close();
+            System.out.println("Saved the database to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
     }
 
     // REQUIRES:
