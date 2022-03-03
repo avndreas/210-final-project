@@ -16,10 +16,19 @@
         },
         {
             "number": 2,
-            "contained": true,
-            "entityInfo": [],
-            "name": "[ACCESS DENIED]",
-            "objectClass": "UNCLASSIFIED"
+            "contained": false,
+            "entityInfo": [
+                {
+                    "title": "text1",
+                    "body": "funny text"
+                },
+                {
+                    "title": "text2",
+                    "body": "bottom text"
+                }
+            ],
+            "name": "Test Entity",
+            "objectClass": "KETER"
         },
         {
             "number": 3,
