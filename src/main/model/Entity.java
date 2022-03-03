@@ -102,6 +102,23 @@ public class Entity implements Writable {
         return jsonArray;
     }
 
+    // REQUIRES:
+    // MODIFIES:
+    // EFFECTS: Creates a single string of all the data in an entity. Used for testing.
+    public String getAllInfo() {
+        String no = Integer.toString(itemNumber);
+        String classif = objectClass.name();
+        String containment = String.valueOf(contained);
+        String textData = "\n";
+
+        for (TextBlock t: entityInfo) {
+            textData = textData + t.getTitle() + " " + t.getBody() + "\n";
+        }
+
+        return no + " " + name + " " + classif + " " + containment + textData;
+
+    }
+
     // getters and setters
 
     public void setName(String name) {

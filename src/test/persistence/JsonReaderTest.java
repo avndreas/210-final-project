@@ -2,6 +2,7 @@ package persistence;
 
 import model.Entity;
 import model.Database;
+import model.TextBlock;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -34,7 +35,7 @@ class JsonReaderTest extends JsonTest {
             String defaultList = "Listing all SCPs";
             for (int i = 0; i < (Database.ENTRIES_PER_SERIES); i++) {
                 defaultList = defaultList + "\n SCP-" + Entity.formatNumLength(i, Database.MIN_DIGITS)
-                        + " - " + Database.DEFAULT_NAME;
+                        + " - " + Database.DEFAULT_NAME + "\n ";
             }
 
             assertEquals(defaultList, d.listAll());
@@ -51,14 +52,18 @@ class JsonReaderTest extends JsonTest {
             Database d = reader.read();
             assertEquals(1, d.getSeries());
 
-            String defaultList = "Listing all SCPs";
+            String testList = "Listing all SCPs";
             for (int i = 0; i < (Database.ENTRIES_PER_SERIES); i++) {
 
                 if (i == 2) {
-                    defaultList = defaultList + "\n SCP-" + Entity.formatNumLength(i, Database.MIN_DIGITS)
+
+                    assertEquals("Description", d.getSCP(i).getRawInfo().get(0).getTitle());
+                    assertEquals("This is a test", d.getSCP(i).getRawInfo().get(0).getBody());
+
+                    testList = testList + "\n SCP-" + Entity.formatNumLength(i, Database.MIN_DIGITS)
                             + " - " + "Test Entity";
                 } else {
-                    defaultList = defaultList + "\n SCP-" + Entity.formatNumLength(i, Database.MIN_DIGITS)
+                    testList = testList + "\n SCP-" + Entity.formatNumLength(i, Database.MIN_DIGITS)
                             + " - " + Database.DEFAULT_NAME;
                 }
             }

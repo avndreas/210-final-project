@@ -100,4 +100,14 @@ class EntityTest {
         entity.setContained(false);
         assertFalse(entity.isContained());
     }
+
+    @Test
+    void testGetAllInfo() {
+
+        entity.addEntry("test title", "test body");
+        entity.addEntry("second test title", "second test body");
+
+        assertEquals("173 The Sculpture EUCLID true\ntest title test body\n"
+                + "second test title second test body\n", entity.getAllInfo());
+    }
 }
