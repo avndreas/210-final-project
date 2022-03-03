@@ -16,6 +16,7 @@ public class TextBlock implements Writable {
     }
 
     // REFERENCE: CPSC 210 example files
+    // EFFECTS: Returns the current TextBlock as a JSON object.
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

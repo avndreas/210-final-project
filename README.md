@@ -21,6 +21,7 @@ about this project.*
 - I would like to be able to edit the information above for any existing SCP except for its number.
 - I would like to be able to delete an SCP from the catalogue.
 - I should be able to view all SCPs as a legible list.
-- I want to be able to save the database manually, and automatically when quitting the program.
-- I want to be able to load the database from file.
+### User Stories - Stage 2:
+- I want the option to save the database manually.
+- I want the option to load the database from the save file.
 

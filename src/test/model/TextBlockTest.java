@@ -5,11 +5,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// Test class for TextBlock, currently has nothing in need of testing.
 public class TextBlockTest {
 
     // REFERENCE: CPSC 210 example files
     @BeforeEach
     void runBefore() {
-        // this class only has getters or setters
+        // nothing to test yet
     }
 }

@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 // REFERENCE: CPSC 210 example files
+// Test class for JsonWriter on its ability to create JSON files translated from databases.
 class JsonWriterTest extends JsonTest {
     //NOTE TO CPSC 210 STUDENTS: the strategy in designing tests for the JsonWriter is to
     //write data to a file and then use the reader to read it back in and check that we
@@ -46,7 +47,7 @@ class JsonWriterTest extends JsonTest {
             for (int i = 0; i < (d.getSeries() * Database.ENTRIES_PER_SERIES); i++) {
                 Entity e = d.getSCP(i);
                 String defaultInfo = i + " " + Database.DEFAULT_NAME + " " + Database.DEFAULT_CLASS
-                        + " " + Database.DEFAULT_CONT;
+                        + " " + Database.DEFAULT_CONT + "\n";
                 assertEquals(defaultInfo, e.getAllInfo());
             }
 
@@ -84,7 +85,7 @@ class JsonWriterTest extends JsonTest {
                     assertEquals(e2.getAllInfo(), d.getSCP(i).getAllInfo());
                 } else {
                     String defaultInfo = i + " " + Database.DEFAULT_NAME + " " + Database.DEFAULT_CLASS
-                            + " " + Database.DEFAULT_CONT;
+                            + " " + Database.DEFAULT_CONT + "\n";
                     assertEquals(defaultInfo, e.getAllInfo());
                 }
 

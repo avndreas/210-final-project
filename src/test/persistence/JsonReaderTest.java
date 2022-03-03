@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 // REFERENCE: CPSC 210 example files
+// Tests the JsonReader class for being able to read JSON save files and translate them to working databases.
 class JsonReaderTest extends JsonTest {
 
     @Test
@@ -35,7 +36,7 @@ class JsonReaderTest extends JsonTest {
             String defaultList = "Listing all SCPs";
             for (int i = 0; i < (Database.ENTRIES_PER_SERIES); i++) {
                 defaultList = defaultList + "\n SCP-" + Entity.formatNumLength(i, Database.MIN_DIGITS)
-                        + " - " + Database.DEFAULT_NAME + "\n ";
+                        + " - " + Database.DEFAULT_NAME;
             }
 
             assertEquals(defaultList, d.listAll());
@@ -56,11 +57,11 @@ class JsonReaderTest extends JsonTest {
             for (int i = 0; i < (Database.ENTRIES_PER_SERIES); i++) {
 
                 if (i == 2) {
-                    assertEquals("Test Entity 2 KETER false\ntext1 funny test\ntext2 bottom text",
+                    assertEquals("2 Test Entity KETER false\ntext1 funny text\ntext2 bottom text\n",
                             d.getSCP(i).getAllInfo());
                 } else {
-                    assertEquals(Database.DEFAULT_NAME + " " + i + " " + Database.DEFAULT_CLASS + " "
-                                    + Database.DEFAULT_CONT + "\n\n", d.getSCP(i).getAllInfo());
+                    assertEquals(i + " " + Database.DEFAULT_NAME + " " + Database.DEFAULT_CLASS + " "
+                                    + Database.DEFAULT_CONT + "\n", d.getSCP(i).getAllInfo());
                 }
             }
         } catch (IOException e) {

@@ -78,6 +78,7 @@ public class Entity implements Writable {
     }
 
     // REFERENCE: CPSC 210 example files
+    // EFFECTS: Returns the current entity as a JSON object.
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -149,7 +150,7 @@ public class Entity implements Writable {
         return contained;
     }
 
-    public List<TextBlock> getRawInfo() {
+    public List<TextBlock> getEntityInfo() {
         return this.entityInfo;
     }
 }

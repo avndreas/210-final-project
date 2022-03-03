@@ -101,11 +101,15 @@ public class Database implements Writable {
         }
     }
     */
+
+    // REQUIRES: itemNumber be from 0 to (series * ENTRIES_PER_SERIES) - 1
+    // EFFECTS: Returns the Entity belonging to a number
     public Entity getSCP(int itemNumber) {
         return listOfSCPs.get(itemNumber);
     }
 
     // REFERENCE: CPSC 210 example files
+    // EFFECTS: Returns the current database as a JSON object
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -115,7 +119,7 @@ public class Database implements Writable {
     }
 
     // REFERENCE: CPSC 210 example files
-    // EFFECTS: returns things in this workroom as a JSON array
+    // EFFECTS: returns entities in this database as a JSON array
     private JSONArray entitiesToJson() {
         JSONArray jsonArray = new JSONArray();
 

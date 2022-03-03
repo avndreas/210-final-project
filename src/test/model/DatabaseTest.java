@@ -38,7 +38,7 @@ public class DatabaseTest {
         assertEquals(Database.DEFAULT_CONT,
                 database.getSCP(database.getSCP(testEntity.getItemNumber()).getItemNumber()).isContained());
         assertEquals(0 ,
-                database.getSCP(database.getSCP(testEntity.getItemNumber()).getItemNumber()).getRawInfo().size());
+                database.getSCP(database.getSCP(testEntity.getItemNumber()).getItemNumber()).getEntityInfo().size());
     }
 
     @Test

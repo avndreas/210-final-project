@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 // REFERENCE: CPSC 210 example files
-// Test class for json stuff
+// Currently unneeded testing class, may be useful in the future.
 public class JsonTest {
     protected void checkEntity(int itemNumber, String name, Classification objectClass, boolean contained,
                                ArrayList<TextBlock> entityInfo, Entity entity) {
@@ -18,8 +18,8 @@ public class JsonTest {
         assertEquals(objectClass, entity.getClassification());
         assertEquals(contained, entity.isContained());
         for (TextBlock t: entityInfo) {
-            assertEquals(t.getTitle(), entity.getRawInfo().get(entityInfo.indexOf(t)).getTitle());
-            assertEquals(t.getBody(), entity.getRawInfo().get(entityInfo.indexOf(t)).getBody());
+            assertEquals(t.getTitle(), entity.getEntityInfo().get(entityInfo.indexOf(t)).getTitle());
+            assertEquals(t.getBody(), entity.getEntityInfo().get(entityInfo.indexOf(t)).getBody());
         }
     }
 }

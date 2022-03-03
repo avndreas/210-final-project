@@ -3,7 +3,6 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.soap.Text;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,8 +33,6 @@ class EntityTest {
         entity.addEntry("Special Containment Procedures", "don't blink");
         entity.addEntry("Description", "concrete and rebar peanut");
         assertEquals(expected1, entity.getEntry());
-
-        // test on a blank one still !!!
     }
 
     @Test
@@ -43,30 +40,30 @@ class EntityTest {
 
         // trying to delete entries when there are none
         entity.deleteEntry(0);
-        assertEquals(blankEntity.getRawInfo(), entity.getRawInfo());
-        entity.deleteEntry(entity.getRawInfo().size() + 1);
-        assertEquals(blankEntity.getRawInfo(), entity.getRawInfo());
+        assertEquals(blankEntity.getEntityInfo(), entity.getEntityInfo());
+        entity.deleteEntry(entity.getEntityInfo().size() + 1);
+        assertEquals(blankEntity.getEntityInfo(), entity.getEntityInfo());
 
         entity.addEntry("Description", "A scary sculpture.");
 
         // deleting nonexistent entry while a real entry exists.
-        entity.deleteEntry(entity.getRawInfo().size() + 1);
-        List<TextBlock> textList = new ArrayList<TextBlock>();
+        entity.deleteEntry(entity.getEntityInfo().size() + 1);
+        List<TextBlock> textList = new ArrayList<>();
         textList.add(new TextBlock("Description", "A scary sculpture."));
-        assertEquals(textList.get(0).getTitle(), entity.getRawInfo().get(0).getTitle());
-        assertEquals(textList.get(0).getBody(), entity.getRawInfo().get(0).getBody());
+        assertEquals(textList.get(0).getTitle(), entity.getEntityInfo().get(0).getTitle());
+        assertEquals(textList.get(0).getBody(), entity.getEntityInfo().get(0).getBody());
 
         // deleting that existing entry
         entity.deleteEntry(0);
-        assertEquals(blankEntity.getRawInfo(), entity.getRawInfo());
+        assertEquals(blankEntity.getEntityInfo(), entity.getEntityInfo());
     }
 
     @Test
     void addEntry() {
         TextBlock testEntry1 = new TextBlock("Addendum", "do not hug either");
         entity.addEntry("Addendum", "do not hug either");
-        assertEquals(testEntry1.getTitle(), entity.getRawInfo().get(0).getTitle());
-        assertEquals(testEntry1.getBody(), entity.getRawInfo().get(0).getBody());
+        assertEquals(testEntry1.getTitle(), entity.getEntityInfo().get(0).getTitle());
+        assertEquals(testEntry1.getBody(), entity.getEntityInfo().get(0).getBody());
 
         entity.addEntry("Interview with SCP-173:", "Dr. [REDACTED]: Can you hear me? \n"
                 + "Dr. [REDACTED] blinks, and SCP-173 immediately breaks his neck. \n"
@@ -76,8 +73,8 @@ class EntityTest {
                 "Dr. [REDACTED]: Can you hear me? \n"
                         + "Dr. [REDACTED] blinks, and SCP-173 immediately breaks his neck. \n"
                         + "End of interview");
-        assertEquals(testEntry2.getTitle(), entity.getRawInfo().get(1).getTitle());
-        assertEquals(testEntry2.getBody(), entity.getRawInfo().get(1).getBody());
+        assertEquals(testEntry2.getTitle(), entity.getEntityInfo().get(1).getTitle());
+        assertEquals(testEntry2.getBody(), entity.getEntityInfo().get(1).getBody());
     }
 
     @Test
