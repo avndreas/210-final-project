@@ -56,15 +56,11 @@ class JsonReaderTest extends JsonTest {
             for (int i = 0; i < (Database.ENTRIES_PER_SERIES); i++) {
 
                 if (i == 2) {
-
-                    assertEquals("Description", d.getSCP(i).getRawInfo().get(0).getTitle());
-                    assertEquals("This is a test", d.getSCP(i).getRawInfo().get(0).getBody());
-
-                    testList = testList + "\n SCP-" + Entity.formatNumLength(i, Database.MIN_DIGITS)
-                            + " - " + "Test Entity";
+                    assertEquals("Test Entity 2 KETER false\ntext1 funny test\ntext2 bottom text",
+                            d.getSCP(i).getAllInfo());
                 } else {
-                    testList = testList + "\n SCP-" + Entity.formatNumLength(i, Database.MIN_DIGITS)
-                            + " - " + Database.DEFAULT_NAME;
+                    assertEquals(Database.DEFAULT_NAME + " " + i + " " + Database.DEFAULT_CLASS + " "
+                                    + Database.DEFAULT_CONT + "\n\n", d.getSCP(i).getAllInfo());
                 }
             }
         } catch (IOException e) {
