@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.List;
 
+import static model.Classification.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -32,7 +33,7 @@ class JsonWriterTest extends JsonTest {
     @Test
     void testWriterEmptyWorkroom() {
         try {
-            Database d = new Database(0);
+            Database d = new Database(1);
             JsonWriter writer = new JsonWriter("./data/testWriterEmptyDatabase.json");
             writer.open();
             writer.write(d);
@@ -42,30 +43,53 @@ class JsonWriterTest extends JsonTest {
             d = reader.read();
             assertEquals(1, d.getSeries());
 
-            assertEquals(0, d.numThingies());
+            for (int i = 0; i < (d.getSeries() * Database.ENTRIES_PER_SERIES); i++) {
+                Entity e = d.getSCP(i);
+                String defaultInfo = i + " " + Database.DEFAULT_NAME + " " + Database.DEFAULT_CLASS
+                        + " " + Database.DEFAULT_CONT;
+                assertEquals(defaultInfo, e.getAllInfo());
+            }
+
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }
     }
 
     @Test
-    void testWriterGeneralWorkroom() {
+    void testWriterGeneralDatabase() {
         try {
-            WorkRoom wr = new WorkRoom("My work room");
-            wr.addThingy(new Thingy("saw", Category.METALWORK));
-            wr.addThingy(new Thingy("needle", Category.STITCHING));
+            Database d = new Database(1);
+
+            Entity e1 = new Entity(1, "test1", SAFE, true);
+            Entity e2 = new Entity(2, "test2", APOLLYON, false);
+            e2.addEntry("the", "game");
+            d.addSCP(e1);
+            d.addSCP(e2);
+
             JsonWriter writer = new JsonWriter("./data/testWriterGeneralDatabase.json");
             writer.open();
-            writer.write(wr);
+            writer.write(d);
             writer.close();
 
             JsonReader reader = new JsonReader("./data/testWriterGeneralDatabase.json");
-            wr = reader.read();
-            assertEquals("My work room", wr.getName());
-            List<Thingy> thingies = wr.getThingies();
-            assertEquals(2, thingies.size());
-            checkThingy("saw", Category.METALWORK, thingies.get(0));
-            checkThingy("needle", Category.STITCHING, thingies.get(1));
+            d = reader.read();
+            assertEquals(1, d.getSeries());
+
+            for (int i = 0; i < (d.getSeries() * Database.ENTRIES_PER_SERIES); i++) {
+                Entity e = d.getSCP(i);
+
+                if (i == 1) {
+                    assertEquals(e1.getAllInfo(), d.getSCP(i).getAllInfo());
+                } else if (i == 2) {
+                    assertEquals(e2.getAllInfo(), d.getSCP(i).getAllInfo());
+                } else {
+                    String defaultInfo = i + " " + Database.DEFAULT_NAME + " " + Database.DEFAULT_CLASS
+                            + " " + Database.DEFAULT_CONT;
+                    assertEquals(defaultInfo, e.getAllInfo());
+                }
+
+
+            }
 
         } catch (IOException e) {
             fail("Exception should not have been thrown");
