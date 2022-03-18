@@ -29,6 +29,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
     private JPanel entityPanel;
     private JSplitPane splitPane;
+    private JScrollPane scrollableList;
 
     private ArrayList<JButton> buttonListOfSCPs;
 
@@ -38,35 +39,20 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight();
-
         setPreferredSize(new Dimension((int)(width * X_SCALE), (int)(height * Y_SCALE)));
-
         ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13) );
-
         setLayout(new FlowLayout());
 
         entityPanel = new JPanel();
-
-        JScrollPane scrollableList = new JScrollPane(entityPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+        buttonListOfSCPs = new ArrayList<>();
+        scrollableList = new JScrollPane(entityPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        JButton btn = new JButton("Change");
-        btn.setActionCommand("myButton");
-        btn.addActionListener(this); // Sets "this" object as an action listener for btn
-        // so that when the btn is clicked,
-        // this.actionPerformed(ActionEvent e) will be called.
-        // You could also set a different object, if you wanted
-        // a different object to respond to the button click
-        label = new JLabel("flag");
-        field = new JTextField(5);
-        add(field);
-        add(btn);
-        add(label);
-        add(scrollableList);
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
-        setResizable(false);
+        Dimension minimumSize = new Dimension(100, 50);
+        entityPanel.setMinimumSize(minimumSize);
+        scrollableList.setMinimumSize(minimumSize);
+
+        runDatabase();
     }
 
     private void runDatabase() {
@@ -76,8 +62,26 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         database = new Database(SERIES);
         initializeListOfNames(database);
 
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, listScrollPane, pictureScrollPane);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, entityPanel, scrollableList);
 
+        JButton btn = new JButton("Change");
+        btn.setActionCommand("myButton");
+        btn.addActionListener(this); // Sets "this" object as an action listener for btn
+        // so that when the btn is clicked,
+        // this.actionPerformed(ActionEvent e) will be called.
+        // You could also set a different object, if you wanted
+        // a different object to respond to the button click
+
+        label = new JLabel("flag");
+        field = new JTextField(5);
+        add(field);
+        add(btn);
+        add(label);
+        entityPanel.add(scrollableList);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setResizable(false);
         /*
         while (keepRunning) {
             displayMenu();
