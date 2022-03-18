@@ -1,6 +1,7 @@
 package ui;
 
 import model.Database;
+import model.Entity;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -9,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DatabaseSwingUI extends JFrame implements ActionListener {
@@ -27,10 +29,11 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
     private JPanel entityPanel;
 
+    private ArrayList<JButton> buttonListOfSCPs;
+
     public DatabaseSwingUI() {
         super("SCP Database");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight();
@@ -43,8 +46,6 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
         JScrollPane scrollableList = new JScrollPane(entityPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-        initializeListOfNames(database);
 
         JButton btn = new JButton("Change");
         btn.setActionCommand("myButton");
@@ -65,6 +66,35 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         setResizable(false);
     }
 
+    private void runDatabase() {
+        boolean keepRunning = true;
+        String command = null;
+
+        database = new Database(SERIES);
+        initializeListOfNames(database);
+
+        /*
+        while (keepRunning) {
+            displayMenu();
+            command = input.next();
+            command = command.toLowerCase();
+
+            if (command.equals("quit")) {
+                keepRunning = false;
+            } else {
+                processCommand(command);
+            }
+
+        }
+
+         */
+
+    }
+
+    private void displayMenu() {
+
+    }
+
     //This is the method that is called when the the JButton btn is clicked
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("myButton")) {
@@ -77,8 +107,9 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     }
 
     private void initializeListOfNames(Database database) {
-        for (int i = 1; i < SERIES * NUM_ENTRIES_PER_SERIES) {
-            JButton ent = new JButton(database.getSCP(i));
+        for (Entity e: database.getListOfSCPs()) {
+            JButton ent = new JButton(e.getName());
+            buttonListOfSCPs.add(ent);
         }
 
     }

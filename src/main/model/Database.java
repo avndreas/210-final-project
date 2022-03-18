@@ -26,6 +26,10 @@ public class Database implements Writable {
         initializeSeries(series);
     }
 
+    public List<Entity> getListOfSCPs() {
+        return listOfSCPs;
+    }
+
     // REQUIRES: int > 0
     // MODIFIES: this.listOfSCPs
     // EFFECTS: Creates a default SCP for every index of the database
