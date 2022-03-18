@@ -28,6 +28,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     private JsonWriter jsonWriter;
 
     private JPanel entityPanel;
+    private JSplitPane splitPane;
 
     private ArrayList<JButton> buttonListOfSCPs;
 
@@ -39,7 +40,9 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         double height = screenSize.getHeight();
 
         setPreferredSize(new Dimension((int)(width * X_SCALE), (int)(height * Y_SCALE)));
+
         ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13) );
+
         setLayout(new FlowLayout());
 
         entityPanel = new JPanel();
@@ -72,6 +75,8 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
         database = new Database(SERIES);
         initializeListOfNames(database);
+
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, listScrollPane, pictureScrollPane);
 
         /*
         while (keepRunning) {
