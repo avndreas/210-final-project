@@ -5,13 +5,16 @@ import model.Entity;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class DatabaseSwingUI extends JFrame implements ActionListener {
     private JLabel label;
@@ -27,61 +30,71 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     private JsonReader jsonReader;
     private JsonWriter jsonWriter;
 
-    private JPanel entityPanel;
-    private JSplitPane splitPane;
-    private JScrollPane scrollableList;
+    private JPanel leftPanel;
+    private JPanel entityListPanel;
+    private JPanel entityInfoPanel;
+    private JScrollPane entityCatalogueScrollPane;
+
+    private JSplitPane splitPane1;
+    private JSplitPane splitPane2;
 
     private ArrayList<JButton> buttonListOfSCPs;
 
     public DatabaseSwingUI() {
         super("SCP Database");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = screenSize.getWidth();
-        double height = screenSize.getHeight();
-        setPreferredSize(new Dimension((int)(width * X_SCALE), (int)(height * Y_SCALE)));
-        ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13) );
-        setLayout(new FlowLayout());
 
-        entityPanel = new JPanel();
+        //((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13) );
+        setLayout(new BorderLayout());
+
+        leftPanel = new JPanel();
+        entityListPanel = new JPanel();
+        entityInfoPanel = new JPanel();
+
+        splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, entityListPanel);
+        splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, entityInfoPanel);
         buttonListOfSCPs = new ArrayList<>();
-        scrollableList = new JScrollPane(entityPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+
+        entityCatalogueScrollPane = new JScrollPane(entityListPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        Dimension minimumSize = new Dimension(100, 50);
-        entityPanel.setMinimumSize(minimumSize);
-        scrollableList.setMinimumSize(minimumSize);
+
+
+
+        //Dimension minimumSize = new Dimension(100, 50);
+        //leftPanel.setMinimumSize(minimumSize);
+        //entityCatalogueScrollPane.setMinimumSize(minimumSize);
 
         runDatabase();
     }
 
     private void runDatabase() {
-        boolean keepRunning = true;
-        String command = null;
+        //boolean keepRunning = true;
+        //String command = null;
 
         database = new Database(SERIES);
         initializeListOfNames(database);
 
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, entityPanel, scrollableList);
 
         JButton btn = new JButton("Change");
         btn.setActionCommand("myButton");
         btn.addActionListener(this); // Sets "this" object as an action listener for btn
+
         // so that when the btn is clicked,
         // this.actionPerformed(ActionEvent e) will be called.
         // You could also set a different object, if you wanted
         // a different object to respond to the button click
+        //label = new JLabel("flag");
+        //field = new JTextField(5);
+        //add(field);
+        //add(btn);
+        //add(label);
+        //leftPanel.add(entityCatalogueScrollPane);
+        //pack();
 
-        label = new JLabel("flag");
-        field = new JTextField(5);
-        add(field);
-        add(btn);
-        add(label);
-        entityPanel.add(scrollableList);
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
-        setResizable(false);
+
+
+
         /*
         while (keepRunning) {
             displayMenu();
@@ -98,10 +111,47 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
          */
 
+        displayMenu();
+
     }
 
     private void displayMenu() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = screenSize.getWidth();
+        double height = screenSize.getHeight();
+        setSize(new Dimension((int)(width * X_SCALE), (int)(height * Y_SCALE)));
 
+
+        JButton testLeft = new JButton("Left button");
+        JButton testMid = new JButton("Middle button");
+        JButton testRight = new JButton("Right button");
+
+
+        // left panel
+        BufferedImage siteLogo;
+        try {
+            siteLogo = ImageIO.read(new File("data/images/SCP_Logo.png"));
+            JLabel banner = new JLabel(new ImageIcon(siteLogo));
+            leftPanel.add(banner);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //leftPanel.add(testLeft);
+
+        // middle panel
+        //entityListPanel.add(entityCatalogueScrollPane);
+        entityListPanel.add(testMid);
+
+        // right panel
+        //entityInfoPanel.add(entityCatalogueScrollPane);
+        entityInfoPanel.add(testRight);
+
+        add(splitPane2, BorderLayout.CENTER);
+        this.setVisible(true);
+        //entityListPanel.setVisible(true);
+        //entityInfoPanel.setVisible(true);
+        setResizable(false);
+        setLocationRelativeTo(null);
     }
 
     //This is the method that is called when the the JButton btn is clicked
