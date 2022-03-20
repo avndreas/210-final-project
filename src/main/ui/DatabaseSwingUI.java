@@ -46,7 +46,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         super("SCP Database");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13) );
+        ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
         setLayout(new BorderLayout());
 
         leftPanel = new JPanel();
