@@ -45,7 +45,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     private ArrayList<JButton> buttonListOfSCPs;
     private LinkedHashMap<Integer, JButton> entityButtonMap;
 
-    private GridLayout leftLayout;
+    private GridBagLayout leftLayout;
 
     public DatabaseSwingUI() {
         super("SCP Database");
@@ -54,7 +54,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
         setLayout(new BorderLayout());
 
-        leftPanel = new JPanel();
+        leftPanel = new JPanel(leftLayout);
         middlePanel = new JPanel();
         rightPanel = new JPanel();
 
