@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class DatabaseSwingUI extends JFrame implements ActionListener {
     //private JLabel label;
@@ -38,7 +39,11 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     private JSplitPane splitPane1;
     private JSplitPane splitPane2;
 
+    private JLabel leftText;
+    private JTextArea leftTextArea;
+
     private ArrayList<JButton> buttonListOfSCPs;
+    private LinkedHashMap<Integer, JButton> entityButtonMap;
 
     private GridLayout leftLayout;
 
@@ -74,7 +79,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         //String command = null;
 
         database = new Database(SERIES);
-        initializeListOfNames(database);
+        initializeListOfNames();
 
 
         //JButton btn = new JButton("Change");
@@ -117,7 +122,9 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     }
 
     private void displayMenu() {
-        JButton testLeft = new JButton("Left button");
+
+
+
         JButton testMid = new JButton("Middle button");
         JButton testRight = new JButton("Right button");
 
@@ -128,21 +135,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         int appWidth = (int)(width * X_SCALE);
         int appHeight = (int)(height * Y_SCALE);
 
-        // left panel
-        BufferedImage siteLogo;
-        try {
-            siteLogo = ImageIO.read(new File("data/images/SCP_Logo.png"));
-            Image resizedLogo = siteLogo.getScaledInstance((int)(siteLogo.getWidth() * 0.5),
-                    (int)(siteLogo.getHeight() * 0.5), Image.SCALE_DEFAULT);
-            JLabel banner = new JLabel(new ImageIcon(resizedLogo));
-            leftPanel.add(banner);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
-        leftPanel.add(testLeft);
+        initalizeLeftPanel();
 
         // middle panel
         //entityListPanel.add(entityCatalogueScrollPane);
@@ -172,6 +165,34 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
     }
 
+    private void initalizeLeftPanel() {
+        JButton testLeft = new JButton("Left button");
+
+        BufferedImage siteLogo;
+        try {
+            siteLogo = ImageIO.read(new File("data/images/SCP_Logo.png"));
+            Image resizedLogo = siteLogo.getScaledInstance((int)(siteLogo.getWidth() * 0.5),
+                    (int)(siteLogo.getHeight() * 0.5), Image.SCALE_DEFAULT);
+            JLabel banner = new JLabel(new ImageIcon(resizedLogo));
+            leftPanel.add(banner);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        leftTextArea = new JTextArea();
+        leftTextArea.setLineWrap(true);
+        leftTextArea.setWrapStyleWord(true);
+        leftTextArea.setEditable(false);
+        leftTextArea.setBorder(null);
+        leftTextArea.setText("What the fuck did you just fucking say about me, you little bitch? I'll have you know I graduated top of my class in the Navy Seals, and I've been involved in numerous secret raids on Al-Quaeda, and I have over 300 confirmed kills. I am trained in gorilla warfare and I'm the top sniper in the entire US armed forces. You are nothing to me but just another target. I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth, mark my fucking words. You think you can get away with saying that shit to me over the Internet? Think again, fucker. As we speak I am contacting my secret network of spies across the USA and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You're fucking dead, kid. I can be anywhere, anytime, and I can kill you in over seven hundred ways, and that's just with my bare hands. Not only am I extensively trained in unarmed combat, but I have access to the entire arsenal of the United States Marine Corps and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little \\\"clever\\\" comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn't, you didn't, and now you're paying the price, you goddamn idiot. I will shit fury all over you and you will drown in it. You're fucking dead, kiddo.");
+
+        //leftText.setFont(new Font("Serif", Font.BOLD, 18));
+        leftText = new JLabel("<html>" + "What the fuck did you just fucking say about me, you little bitch? I'll have you know I graduated top of my class in the Navy Seals, and I've been involved in numerous secret raids on Al-Quaeda, and I have over 300 confirmed kills. I am trained in gorilla warfare and I'm the top sniper in the entire US armed forces. You are nothing to me but just another target. I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth, mark my fucking words. You think you can get away with saying that shit to me over the Internet? Think again, fucker. As we speak I am contacting my secret network of spies across the USA and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You're fucking dead, kid. I can be anywhere, anytime, and I can kill you in over seven hundred ways, and that's just with my bare hands. Not only am I extensively trained in unarmed combat, but I have access to the entire arsenal of the United States Marine Corps and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little \"clever\" comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn't, you didn't, and now you're paying the price, you goddamn idiot. I will shit fury all over you and you will drown in it. You're fucking dead, kiddo." + "</html>");
+
+        leftPanel.add(leftTextArea);
+        leftPanel.add(testLeft);
+    }
+
     //This is the method that is called when the the JButton btn is clicked
     public void actionPerformed(ActionEvent e) {
         //if (e.getActionCommand().equals("myButton")) {
@@ -183,10 +204,12 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         new DatabaseSwingUI();
     }
 
-    private void initializeListOfNames(Database database) {
+    private void initializeListOfNames() {
         for (Entity e: database.getListOfSCPs()) {
-            JButton ent = new JButton(e.getName());
-            buttonListOfSCPs.add(ent);
+            JButton entityButton = new JButton(e.getLabel());
+            entityButton.setActionCommand(Integer.toString(e.getItemNumber()));
+            //entityButtonMap.put(e.getItemNumber(), entityButton);
+            buttonListOfSCPs.add(entityButton);
         }
 
     }

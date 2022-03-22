@@ -57,6 +57,15 @@ public class Entity implements Writable {
         return entry;
     }
 
+    // REQUIRES: entityInfo not empty
+    // MODIFIES:
+    // EFFECTS: Returns a string with the SCP's label, nicely formatted.
+    public String getLabel() {
+        String entry = "SCP-" + formatNumLength(this.getItemNumber(), Database.MIN_DIGITS) +
+                 " - " + name;
+        return entry;
+    }
+
     // REQUIRES: index > 0
     // MODIFIES: entityInfo
     // EFFECTS: Tries to delete an item from the entityInfo list, returns an error message if no object at that index.
