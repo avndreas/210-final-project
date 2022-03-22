@@ -165,6 +165,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
     }
 
+
     private void initalizeLeftPanel() {
         JButton testLeft = new JButton("Left button");
 
