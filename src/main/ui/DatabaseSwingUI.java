@@ -1,7 +1,9 @@
 package ui;
 
+import model.Classification;
 import model.Database;
 import model.Entity;
+import model.TextBlock;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -46,7 +48,19 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     private JPanel buttonPanel;
     private GridLayout buttonLayout;
 
-    private ArrayList<JButton> buttonListOfSCPs;
+    // right scroll panel
+    private JButton addButton;
+    private JButton editButton;
+    private JButton deleteButton;
+    private JButton saveEntityButton;
+    private JTextArea entryTitle;
+    private JButton classification;
+    private JButton containmentStatus;
+    private JButton addNewTextArea;
+    private JScrollPane rightPanelScrollPane;
+    private GridBagLayout rightGridBagLayout;
+    private GridBagConstraints rightConstraints;
+
     //private LinkedHashMap<Integer, JButton> entityButtonMap;
 
     private GridLayout leftLayout;
@@ -63,13 +77,16 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
         leftPanel = new JPanel(leftLayout);
         //middlePanel = new JPanel(buttonLayout);
-        rightPanel = new JPanel();
         buttonPanel = new JPanel(buttonLayout);
 
-        buttonListOfSCPs = new ArrayList<>();
         middlePanelScrollPane = new JScrollPane(buttonPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
+        //right panel
+        rightGridBagLayout = new GridBagLayout();
+        rightPanel = new JPanel(rightGridBagLayout);
+        rightPanelScrollPane = new JScrollPane(rightPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         //entityCatalogueScrollPane = new JScrollPane(middlePanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
         //        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -99,9 +116,6 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
     private void displayMenu() {
 
-        JButton testMid = new JButton("Middle button");
-        JButton testRight = new JButton("Right button");
-
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight();
@@ -117,13 +131,13 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
         // right panel
         //entityInfoPanel.add(entityCatalogueScrollPane);
-        rightPanel.add(testRight);
+        initializeRightPanel(false);
 
         splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, middlePanelScrollPane);
-        splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, rightPanel);
+        splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, rightPanelScrollPane);
 
-        splitPane1.setDividerLocation((int)(appWidth / 3));
-        splitPane2.setDividerLocation((int)(appWidth * 2 / 3));
+        splitPane1.setDividerLocation((int)(appWidth / 5));
+        splitPane2.setDividerLocation((int)(appWidth * 2 / 5 + (appWidth / 5)));
 
         this.add(splitPane2, BorderLayout.CENTER);
 
@@ -139,10 +153,44 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
     }
 
+    private void initializeRightPanel(Boolean editable) {
+        Entity defaultEntity = database.getSCP(1);
+        addButton = new JButton("Add SCP Here");
+        editButton = new JButton("Edit SCP");
+        deleteButton = new JButton("Delete SCP");
+        saveEntityButton = new JButton("Save Edited SCP");
+        entryTitle = new JTextArea(defaultEntity.getLabel());
+        entryTitle.setLineWrap(true);
+        entryTitle.setWrapStyleWord(true);
+        entryTitle.setEditable(editable);
+        entryTitle.setBorder(null);
+        classification = new JButton(defaultEntity.getClassification().name());
+        if (defaultEntity.isContained()) {
+            containmentStatus = new JButton("UNCONTAINED");
+        } else {
+            containmentStatus = new JButton("CONTAINED");
+        }
+        for (TextBlock t: defaultEntity.getEntityInfo()) {
+            JTextArea title = new JTextArea(t.getTitle());
+            JTextArea body = new JTextArea(t.getBody());
+            title.setLineWrap(true);
+            title.setWrapStyleWord(true);
+            title.setEditable(editable);
+            title.setBorder(null);
+            body.setLineWrap(true);
+            body.setWrapStyleWord(true);
+            body.setEditable(editable);
+            body.setBorder(null);
+        }
+        addNewTextArea = new JButton("Add New Text Area");
+        displayRightPanel(editable);
+    }
+
+    private void displayRightPanel(Boolean editable) {
+
+    }
 
     private void initializeLeftPanel() {
-        JButton testLeft = new JButton("Left button");
-
         BufferedImage siteLogo;
         try {
             siteLogo = ImageIO.read(new File("data/images/SCP_Logo.png"));
@@ -184,7 +232,6 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
             entityButton.setActionCommand(Integer.toString(e.getItemNumber()));
             //entityButtonMap.put(e.getItemNumber(), entityButton);
             buttonPanel.add(entityButton);
-            //buttonListOfSCPs.add(entityButton);
         }
 
     }
