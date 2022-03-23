@@ -148,7 +148,10 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         rightPanel.removeAll();
         rightPanel.setBackground(Color.WHITE);
         rightPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+
         addButton = new JButton("Add SCP Here");
+        addButton.setActionCommand("add");
+        addButton.addActionListener(this);
 
         editButton = new JButton("Edit SCP");
         deleteButton = new JButton("Delete SCP");
@@ -252,27 +255,57 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
             initializeRightPanel(false, entityToDisplay);
         } catch (NumberFormatException nfe) {
             switch (actionCommand) {
-                case ("add"):
+                case "add":
                     try {
                         addEntity(currentEntityOnRight);
                     } catch (EntityAlreadyExistsException eae) {
                         System.out.println("problem - Entity already exists");
                     }
-                case ("edit"):
+                    break;
+                case "edit":
                     if (currentEntityOnRight.getClassification() == Classification.UNCLASSIFIED) {
                         System.out.println("problem - Entity does not exist");
                     } else {
                         initializeRightPanel(true, currentEntityOnRight);
                     }
+                    break;
+                default:
+                    System.out.println("default");
+                    break;
             }
         }
     }
 
     private void addEntity(Entity e) throws EntityAlreadyExistsException {
-        if (e.getClassification() == Classification.UNCLASSIFIED) {
-            throw new EntityAlreadyExistsException("This SCP already has an entry!");
-        } else {
+        if (e.getClassification().name().equals(Classification.UNCLASSIFIED.name())) {
             System.out.println("adds new scp");
+
+            JTextField nameInput = new JTextField(10);
+            Classification[] classChoices = {Classification.SAFE, Classification.EUCLID, Classification.KETER,
+                    Classification.THAUMIEL, Classification.APOLLYON};
+            String[] containChoices = {"Contained", "Uncontained"};
+            JComboBox<Classification> classMenu = new JComboBox<>(classChoices);
+            JComboBox<String> containMenu = new JComboBox<>(containChoices);
+
+            GridLayout addPanelLayout = new GridLayout(0,1);
+            JPanel addPanel = new JPanel(addPanelLayout);
+            addPanel.add(new JLabel("SCP-" + Entity.formatNumLength(e.getItemNumber(), Database.MIN_DIGITS)));
+            addPanel.add(nameInput);
+            addPanel.add(Box.createHorizontalStrut(15));
+            addPanel.add(classMenu);
+            addPanel.add(Box.createHorizontalStrut(15));
+            addPanel.add(containMenu);
+
+            int result = JOptionPane.showConfirmDialog(null, addPanel, "sussie",
+                    JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                System.out.println(nameInput.getText());
+                System.out.println(classMenu.getSelectedItem());
+                System.out.println(containMenu.getSelectedItem());
+            }
+
+        } else {
+            throw new EntityAlreadyExistsException("This SCP already has an entry!");
         }
     }
 
