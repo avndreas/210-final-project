@@ -85,6 +85,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         //right panel
         rightGridBagLayout = new GridBagLayout();
         rightPanel = new JPanel(rightGridBagLayout);
+        rightConstraints = new GridBagConstraints();
         rightPanelScrollPane = new JScrollPane(rightPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -131,7 +132,8 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
         // right panel
         //entityInfoPanel.add(entityCatalogueScrollPane);
-        initializeRightPanel(false);
+        initializeRightPanel(true);
+        rightConstraints = new GridBagConstraints();
 
         splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, middlePanelScrollPane);
         splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, rightPanelScrollPane);
@@ -155,7 +157,10 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
     private void initializeRightPanel(Boolean editable) {
         Entity defaultEntity = database.getSCP(1);
+        rightPanel.setBackground(Color.WHITE);
+        rightPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         addButton = new JButton("Add SCP Here");
+
         editButton = new JButton("Edit SCP");
         deleteButton = new JButton("Delete SCP");
         saveEntityButton = new JButton("Save Edited SCP");
@@ -164,12 +169,58 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         entryTitle.setWrapStyleWord(true);
         entryTitle.setEditable(editable);
         entryTitle.setBorder(null);
+        entryTitle.setFont(new Font("Roboto", Font.BOLD, 30));
         classification = new JButton(defaultEntity.getClassification().name());
         if (defaultEntity.isContained()) {
             containmentStatus = new JButton("UNCONTAINED");
         } else {
             containmentStatus = new JButton("CONTAINED");
         }
+
+
+
+        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
+        rightConstraints.gridx = 0;
+        rightConstraints.gridy = 0;
+        rightPanel.add(addButton, rightConstraints);
+
+        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
+        rightConstraints.gridx = 1;
+        rightPanel.add(editButton, rightConstraints);
+
+        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
+        rightConstraints.gridx = 3;
+        rightPanel.add(deleteButton, rightConstraints);
+
+        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
+        rightConstraints.gridx = 4;
+        rightPanel.add(saveEntityButton, rightConstraints);
+
+        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
+        rightConstraints.gridx = 0;
+        rightPanel.add(addButton, rightConstraints);
+
+        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
+        rightConstraints.gridy = 1;
+        rightConstraints.gridwidth = 5;
+        rightConstraints.ipady = 40;
+        rightPanel.add(entryTitle, rightConstraints);
+
+        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
+        rightConstraints.gridy = 2;
+        rightConstraints.gridwidth = 2;
+        rightConstraints.ipady = 0;
+        rightPanel.add(classification, rightConstraints);
+
+        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
+        rightConstraints.gridx = 3;
+        rightConstraints.gridy = 2;
+        rightConstraints.gridwidth = 2;
+        rightPanel.add(containmentStatus, rightConstraints);
+
+
+        int initialGridY = 3;
+
         for (TextBlock t: defaultEntity.getEntityInfo()) {
             JTextArea title = new JTextArea(t.getTitle());
             JTextArea body = new JTextArea(t.getBody());
@@ -181,9 +232,34 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
             body.setWrapStyleWord(true);
             body.setEditable(editable);
             body.setBorder(null);
+
+            rightConstraints.fill = GridBagConstraints.HORIZONTAL;
+            rightConstraints.gridx = 0;
+            rightConstraints.gridy = initialGridY;
+            rightConstraints.gridwidth = 5;
+            rightPanel.add(title, rightConstraints);
+
+            rightConstraints.fill = GridBagConstraints.HORIZONTAL;
+            rightConstraints.gridx = 0;
+            rightConstraints.gridy = initialGridY + 1;
+            rightConstraints.gridwidth = 5;
+            rightPanel.add(body, rightConstraints);
+
+            initialGridY = initialGridY + 2;
         }
+
         addNewTextArea = new JButton("Add New Text Area");
-        displayRightPanel(editable);
+
+        if (editable) {
+            rightConstraints.fill = GridBagConstraints.HORIZONTAL;
+            rightConstraints.gridx = 0;
+            rightConstraints.gridy = initialGridY + 2;
+            rightConstraints.gridwidth = 5;
+            rightPanel.add(addNewTextArea, rightConstraints);
+        }
+
+
+        //displayRightPanel(editable);
     }
 
     private void displayRightPanel(Boolean editable) {
