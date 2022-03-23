@@ -76,18 +76,22 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         buttonLayout = new GridLayout(0, 1);
 
         leftPanel = new JPanel(leftLayout);
-        //middlePanel = new JPanel(buttonLayout);
         buttonPanel = new JPanel(buttonLayout);
 
         middlePanelScrollPane = new JScrollPane(buttonPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        //right panel
         rightGridBagLayout = new GridBagLayout();
         rightPanel = new JPanel(rightGridBagLayout);
         rightConstraints = new GridBagConstraints();
         rightPanelScrollPane = new JScrollPane(rightPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        rightConstraints = new GridBagConstraints();
+
+        splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, middlePanelScrollPane);
+        splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, rightPanelScrollPane);
+
 
         //entityCatalogueScrollPane = new JScrollPane(middlePanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
         //        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -124,33 +128,16 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         int appWidth = (int)(width * X_SCALE);
         int appHeight = (int)(height * Y_SCALE);
 
-
-        // middle panel
-        //entityListPanel.add(entityCatalogueScrollPane);
-        //middlePanel.add(testMid);
         initializeLeftPanel();
-
-        // right panel
-        //entityInfoPanel.add(entityCatalogueScrollPane);
         initializeRightPanel(true);
-        rightConstraints = new GridBagConstraints();
 
-        splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, middlePanelScrollPane);
-        splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, rightPanelScrollPane);
 
         splitPane1.setDividerLocation((int)(appWidth / 5));
         splitPane2.setDividerLocation((int)(appWidth * 2 / 5 + (appWidth / 5)));
 
         this.add(splitPane2, BorderLayout.CENTER);
-
-
         this.setSize(new Dimension(appWidth, appHeight));
-
-
-
         this.setVisible(true);
-        //entityListPanel.setVisible(true);
-        //entityInfoPanel.setVisible(true);
         setResizable(false);
         setLocationRelativeTo(null);
     }
@@ -177,47 +164,13 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
             containmentStatus = new JButton("CONTAINED");
         }
 
-
-
-        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
-        rightConstraints.gridx = 0;
-        rightConstraints.gridy = 0;
-        rightPanel.add(addButton, rightConstraints);
-
-        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
-        rightConstraints.gridx = 1;
-        rightPanel.add(editButton, rightConstraints);
-
-        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
-        rightConstraints.gridx = 3;
-        rightPanel.add(deleteButton, rightConstraints);
-
-        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
-        rightConstraints.gridx = 4;
-        rightPanel.add(saveEntityButton, rightConstraints);
-
-        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
-        rightConstraints.gridx = 0;
-        rightPanel.add(addButton, rightConstraints);
-
-        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
-        rightConstraints.gridy = 1;
-        rightConstraints.gridwidth = 5;
-        rightConstraints.ipady = 40;
-        rightPanel.add(entryTitle, rightConstraints);
-
-        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
-        rightConstraints.gridy = 2;
-        rightConstraints.gridwidth = 2;
-        rightConstraints.ipady = 0;
-        rightPanel.add(classification, rightConstraints);
-
-        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
-        rightConstraints.gridx = 3;
-        rightConstraints.gridy = 2;
-        rightConstraints.gridwidth = 2;
-        rightPanel.add(containmentStatus, rightConstraints);
-
+        displayInGridBag(0, 0, 1, 0, 0, addButton);
+        displayInGridBag(1, 0, 1, 0, 0, editButton);
+        displayInGridBag(3, 0, 1, 0, 0, deleteButton);
+        displayInGridBag(4, 0, 1, 0, 0, saveEntityButton);
+        displayInGridBag(0, 1, 5, 0, 40, entryTitle);
+        displayInGridBag(0, 2, 2, 0, 0, classification);
+        displayInGridBag(3, 2, 2, 0, 0, containmentStatus);
 
         int initialGridY = 3;
 
@@ -233,17 +186,8 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
             body.setEditable(editable);
             body.setBorder(null);
 
-            rightConstraints.fill = GridBagConstraints.HORIZONTAL;
-            rightConstraints.gridx = 0;
-            rightConstraints.gridy = initialGridY;
-            rightConstraints.gridwidth = 5;
-            rightPanel.add(title, rightConstraints);
-
-            rightConstraints.fill = GridBagConstraints.HORIZONTAL;
-            rightConstraints.gridx = 0;
-            rightConstraints.gridy = initialGridY + 1;
-            rightConstraints.gridwidth = 5;
-            rightPanel.add(body, rightConstraints);
+            displayInGridBag(0, initialGridY, 5, 0, 0, title);
+            displayInGridBag(0, initialGridY + 1, 5, 0, 0, body);
 
             initialGridY = initialGridY + 2;
         }
@@ -251,19 +195,21 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         addNewTextArea = new JButton("Add New Text Area");
 
         if (editable) {
-            rightConstraints.fill = GridBagConstraints.HORIZONTAL;
-            rightConstraints.gridx = 0;
-            rightConstraints.gridy = initialGridY + 2;
-            rightConstraints.gridwidth = 5;
-            rightPanel.add(addNewTextArea, rightConstraints);
+            displayInGridBag(0, initialGridY + 2, 5, 0, 0, addNewTextArea);
         }
 
 
         //displayRightPanel(editable);
     }
 
-    private void displayRightPanel(Boolean editable) {
-
+    private void displayInGridBag(int gridX, int gridY, int gridWidth, int ipadX, int ipadY, Component comp) {
+        rightConstraints.fill = GridBagConstraints.HORIZONTAL;
+        rightConstraints.gridx = gridX;
+        rightConstraints.gridy = gridY;
+        rightConstraints.gridwidth = gridWidth;
+        rightConstraints.ipadx = ipadX;
+        rightConstraints.ipady = ipadY;
+        rightPanel.add(comp, rightConstraints);
     }
 
     private void initializeLeftPanel() {
