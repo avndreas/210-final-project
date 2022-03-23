@@ -15,7 +15,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 public class DatabaseSwingUI extends JFrame implements ActionListener {
     //private JLabel label;
@@ -34,16 +33,21 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     private JPanel leftPanel;
     private JPanel middlePanel;
     private JPanel rightPanel;
-    private JScrollPane entityCatalogueScrollPane;
+
 
     private JSplitPane splitPane1;
     private JSplitPane splitPane2;
 
-    private JLabel leftText;
+    //private JLabel leftText;
     private JTextArea leftTextArea;
 
+    // middle scroll panel
+    private JScrollPane middlePanelScrollPane;
+    private JPanel buttonPanel;
+    private GridLayout buttonLayout;
+
     private ArrayList<JButton> buttonListOfSCPs;
-    private LinkedHashMap<Integer, JButton> entityButtonMap;
+    //private LinkedHashMap<Integer, JButton> entityButtonMap;
 
     private GridLayout leftLayout;
 
@@ -55,19 +59,20 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         setLayout(new BorderLayout());
 
         leftLayout = new GridLayout(0, 1);
+        buttonLayout = new GridLayout(0, 1);
 
         leftPanel = new JPanel(leftLayout);
-        middlePanel = new JPanel();
+        middlePanel = new JPanel(buttonLayout);
         rightPanel = new JPanel();
-
+        buttonPanel = new JPanel(buttonLayout);
 
         buttonListOfSCPs = new ArrayList<>();
+        middlePanelScrollPane = new JScrollPane(middlePanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
 
         //entityCatalogueScrollPane = new JScrollPane(middlePanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
         //        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-
-
 
         //Dimension minimumSize = new Dimension(100, 50);
         //leftPanel.setMinimumSize(minimumSize);
@@ -77,34 +82,22 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     }
 
     private void runDatabase() {
-        //boolean keepRunning = true;
-        //String command = null;
-
         database = new Database(SERIES);
         initializeListOfNames();
-
 
         //JButton btn = new JButton("Change");
         //btn.setActionCommand("myButton");
         //btn.addActionListener(this); // Sets "this" object as an action listener for btn
-
         // so that when the btn is clicked,
         // this.actionPerformed(ActionEvent e) will be called.
         // You could also set a different object, if you wanted
         // a different object to respond to the button click
-
-        //label = new JLabel("flag");
-        //field = new JTextField(5);
-
         //pack();
-
         displayMenu();
 
     }
 
     private void displayMenu() {
-
-
 
         JButton testMid = new JButton("Middle button");
         JButton testRight = new JButton("Right button");
@@ -120,13 +113,14 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
         // middle panel
         //entityListPanel.add(entityCatalogueScrollPane);
-        middlePanel.add(testMid);
+        //middlePanel.add(testMid);
+        middlePanelScrollPane.add(middlePanel);
 
         // right panel
         //entityInfoPanel.add(entityCatalogueScrollPane);
         rightPanel.add(testRight);
 
-        splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, middlePanel);
+        splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, middlePanelScrollPane);
         splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, rightPanel);
 
         splitPane1.setDividerLocation((int)(appWidth / 3));
@@ -166,10 +160,8 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         leftTextArea.setWrapStyleWord(true);
         leftTextArea.setEditable(false);
         leftTextArea.setBorder(null);
-        leftTextArea.setText("wauce");
+        leftTextArea.setText("This area will be the info about the SCP Foundation.");
         //leftText.setFont(new Font("Serif", Font.BOLD, 18));
-        //leftText = new JLabel("<html>" + "What the fuck did you just fucking say about me, you little bitch? I'll have you know I graduated top of my class in the Navy Seals, and I've been involved in numerous secret raids on Al-Quaeda, and I have over 300 confirmed kills. I am trained in gorilla warfare and I'm the top sniper in the entire US armed forces. You are nothing to me but just another target. I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth, mark my fucking words. You think you can get away with saying that shit to me over the Internet? Think again, fucker. As we speak I am contacting my secret network of spies across the USA and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You're fucking dead, kid. I can be anywhere, anytime, and I can kill you in over seven hundred ways, and that's just with my bare hands. Not only am I extensively trained in unarmed combat, but I have access to the entire arsenal of the United States Marine Corps and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little \"clever\" comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn't, you didn't, and now you're paying the price, you goddamn idiot. I will shit fury all over you and you will drown in it. You're fucking dead, kiddo." + "</html>");
-
         leftPanel.add(leftTextArea);
         //leftPanel.add(testLeft);
     }
@@ -190,7 +182,8 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
             JButton entityButton = new JButton(e.getLabel());
             entityButton.setActionCommand(Integer.toString(e.getItemNumber()));
             //entityButtonMap.put(e.getItemNumber(), entityButton);
-            buttonListOfSCPs.add(entityButton);
+            middlePanel.add(entityButton);
+            //buttonListOfSCPs.add(entityButton);
         }
 
     }
