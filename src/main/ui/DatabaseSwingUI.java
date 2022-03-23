@@ -4,6 +4,7 @@ import model.Classification;
 import model.Database;
 import model.Entity;
 import model.TextBlock;
+import model.Exceptions.*;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -61,9 +62,9 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     private GridBagLayout rightGridBagLayout;
     private GridBagConstraints rightConstraints;
 
-    //private LinkedHashMap<Integer, JButton> entityButtonMap;
-
     private GridLayout leftLayout;
+
+    private Entity currentEntityOnRight;
 
     public DatabaseSwingUI() {
         super("SCP Database");
@@ -143,6 +144,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     }
 
     private void initializeRightPanel(Boolean editable, Entity entity) {
+        currentEntityOnRight = entity;
         rightPanel.removeAll();
         rightPanel.setBackground(Color.WHITE);
         rightPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -249,13 +251,29 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
             entityToDisplay = database.getSCP(entityNum);
             initializeRightPanel(false, entityToDisplay);
         } catch (NumberFormatException nfe) {
-            System.out.println("epic fail");
-            // al mogus
+            switch (actionCommand) {
+                case ("add"):
+                    try {
+                        addEntity(currentEntityOnRight);
+                    } catch (EntityAlreadyExistsException eae) {
+                        System.out.println("problem - Entity already exists");
+                    }
+                case ("edit"):
+                    if (currentEntityOnRight.getClassification() == Classification.UNCLASSIFIED) {
+                        System.out.println("problem - Entity does not exist");
+                    } else {
+                        initializeRightPanel(true, currentEntityOnRight);
+                    }
+            }
         }
+    }
 
-        //if (e.getActionCommand().equals("myButton")) {
-        //    label.setText(field.getText());
-        //}
+    private void addEntity(Entity e) throws EntityAlreadyExistsException {
+        if (e.getClassification() == Classification.UNCLASSIFIED) {
+            throw new EntityAlreadyExistsException("This SCP already has an entry!");
+        } else {
+            System.out.println("adds new scp");
+        }
     }
 
     public static void main(String[] args) {
