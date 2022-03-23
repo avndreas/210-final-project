@@ -129,7 +129,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         int appHeight = (int)(height * Y_SCALE);
 
         initializeLeftPanel();
-        initializeRightPanel(true);
+        initializeRightPanel(true, database.getSCP(1));
 
 
         splitPane1.setDividerLocation((int)(appWidth / 5));
@@ -142,8 +142,8 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
     }
 
-    private void initializeRightPanel(Boolean editable) {
-        Entity defaultEntity = database.getSCP(1);
+    private void initializeRightPanel(Boolean editable, Entity entity) {
+        rightPanel.removeAll();
         rightPanel.setBackground(Color.WHITE);
         rightPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         addButton = new JButton("Add SCP Here");
@@ -151,14 +151,14 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         editButton = new JButton("Edit SCP");
         deleteButton = new JButton("Delete SCP");
         saveEntityButton = new JButton("Save Edited SCP");
-        entryTitle = new JTextArea(defaultEntity.getLabel());
+        entryTitle = new JTextArea(entity.getLabel());
         entryTitle.setLineWrap(true);
         entryTitle.setWrapStyleWord(true);
         entryTitle.setEditable(editable);
         entryTitle.setBorder(null);
         entryTitle.setFont(new Font("Roboto", Font.BOLD, 30));
-        classification = new JButton(defaultEntity.getClassification().name());
-        if (defaultEntity.isContained()) {
+        classification = new JButton(entity.getClassification().name());
+        if (entity.isContained()) {
             containmentStatus = new JButton("UNCONTAINED");
         } else {
             containmentStatus = new JButton("CONTAINED");
@@ -174,7 +174,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
         int initialGridY = 3;
 
-        for (TextBlock t: defaultEntity.getEntityInfo()) {
+        for (TextBlock t: entity.getEntityInfo()) {
             JTextArea title = new JTextArea(t.getTitle());
             JTextArea body = new JTextArea(t.getBody());
             title.setLineWrap(true);
@@ -197,6 +197,9 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         if (editable) {
             displayInGridBag(0, initialGridY + 2, 5, 0, 0, addNewTextArea);
         }
+
+        revalidate();
+        repaint();
 
 
         //displayRightPanel(editable);
@@ -237,7 +240,18 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
     //This is the method that is called when the the JButton btn is clicked
     public void actionPerformed(ActionEvent e) {
-
+        int entityNum;
+        Entity entityToDisplay;
+        String actionCommand = e.getActionCommand();
+        try {
+            entityNum = Integer.parseInt(actionCommand);
+            System.out.println(entityNum);
+            entityToDisplay = database.getSCP(entityNum);
+            initializeRightPanel(false, entityToDisplay);
+        } catch (NumberFormatException nfe) {
+            System.out.println("epic fail");
+            // al mogus
+        }
 
         //if (e.getActionCommand().equals("myButton")) {
         //    label.setText(field.getText());
@@ -252,7 +266,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         for (Entity e: database.getListOfSCPs()) {
             JButton entityButton = new JButton(e.getLabel());
             entityButton.setActionCommand(Integer.toString(e.getItemNumber()));
-            //entityButtonMap.put(e.getItemNumber(), entityButton);
+            entityButton.addActionListener(this);
             buttonPanel.add(entityButton);
         }
 
