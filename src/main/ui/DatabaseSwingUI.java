@@ -31,7 +31,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     private JsonWriter jsonWriter;
 
     private JPanel leftPanel;
-    private JPanel middlePanel;
+    //private JPanel middlePanel;
     private JPanel rightPanel;
 
 
@@ -62,12 +62,12 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         buttonLayout = new GridLayout(0, 1);
 
         leftPanel = new JPanel(leftLayout);
-        middlePanel = new JPanel(buttonLayout);
+        //middlePanel = new JPanel(buttonLayout);
         rightPanel = new JPanel();
         buttonPanel = new JPanel(buttonLayout);
 
         buttonListOfSCPs = new ArrayList<>();
-        middlePanelScrollPane = new JScrollPane(middlePanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+        middlePanelScrollPane = new JScrollPane(buttonPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 
@@ -109,12 +109,11 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         int appWidth = (int)(width * X_SCALE);
         int appHeight = (int)(height * Y_SCALE);
 
-        initalizeLeftPanel();
 
         // middle panel
         //entityListPanel.add(entityCatalogueScrollPane);
         //middlePanel.add(testMid);
-        middlePanelScrollPane.add(middlePanel);
+        initializeLeftPanel();
 
         // right panel
         //entityInfoPanel.add(entityCatalogueScrollPane);
@@ -141,7 +140,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     }
 
 
-    private void initalizeLeftPanel() {
+    private void initializeLeftPanel() {
         JButton testLeft = new JButton("Left button");
 
         BufferedImage siteLogo;
@@ -168,6 +167,8 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
     //This is the method that is called when the the JButton btn is clicked
     public void actionPerformed(ActionEvent e) {
+
+
         //if (e.getActionCommand().equals("myButton")) {
         //    label.setText(field.getText());
         //}
@@ -182,7 +183,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
             JButton entityButton = new JButton(e.getLabel());
             entityButton.setActionCommand(Integer.toString(e.getItemNumber()));
             //entityButtonMap.put(e.getItemNumber(), entityButton);
-            middlePanel.add(entityButton);
+            buttonPanel.add(entityButton);
             //buttonListOfSCPs.add(entityButton);
         }
 
