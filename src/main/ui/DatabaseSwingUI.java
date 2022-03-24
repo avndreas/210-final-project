@@ -302,6 +302,10 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
                 System.out.println(nameInput.getText());
                 System.out.println(classMenu.getSelectedItem());
                 System.out.println(containMenu.getSelectedItem());
+                boolean contained = !containMenu.getSelectedItem().equals("Contained");
+                database.addSCP(new Entity(e.getItemNumber(), nameInput.getText(),
+                        (Classification)classMenu.getSelectedItem(), contained));
+                initializeRightPanel(false, database.getSCP(e.getItemNumber()));
             }
 
         } else {
