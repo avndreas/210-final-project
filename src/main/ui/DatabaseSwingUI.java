@@ -4,7 +4,7 @@ import model.Classification;
 import model.Database;
 import model.Entity;
 import model.TextBlock;
-import model.Exceptions.*;
+import model.exceptions.*;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -17,7 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class DatabaseSwingUI extends JFrame implements ActionListener {
     //private JLabel label;
@@ -34,7 +33,6 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     private JsonWriter jsonWriter;
 
     private JPanel leftPanel;
-    //private JPanel middlePanel;
     private JPanel rightPanel;
 
 
@@ -61,10 +59,16 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     private JScrollPane rightPanelScrollPane;
     private GridBagLayout rightGridBagLayout;
     private GridBagConstraints rightConstraints;
-
     private GridLayout leftLayout;
-
     private Entity currentEntityOnRight;
+
+    private int appWidth;
+    private int appHeight;
+    private Dimension screenSize;
+
+    private final String[] containChoices = {"Contained", "Uncontained"};
+    private final Classification[] classChoices = {Classification.SAFE, Classification.EUCLID, Classification.KETER,
+            Classification.THAUMIEL, Classification.APOLLYON};
 
     public DatabaseSwingUI() {
         super("SCP Database");
@@ -122,15 +126,15 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
     private void displayMenu() {
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight();
 
-        int appWidth = (int)(width * X_SCALE);
-        int appHeight = (int)(height * Y_SCALE);
+        appWidth = (int)(width * X_SCALE);
+        appHeight = (int)(height * Y_SCALE);
 
         initializeLeftPanel();
-        initializeRightPanel(true, database.getSCP(1));
+        initializeRightPanel(database.getSCP(1));
 
 
         splitPane1.setDividerLocation((int)(appWidth / 5));
@@ -143,7 +147,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
     }
 
-    private void initializeRightPanel(Boolean editable, Entity entity) {
+    private void initializeRightPanel(Entity entity) {
         currentEntityOnRight = entity;
         rightPanel.removeAll();
         rightPanel.setBackground(Color.WHITE);
@@ -154,12 +158,15 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         addButton.addActionListener(this);
 
         editButton = new JButton("Edit SCP");
+        editButton.setActionCommand("edit");
+        editButton.addActionListener(this);
+
         deleteButton = new JButton("Delete SCP");
         saveEntityButton = new JButton("Save Edited SCP");
         entryTitle = new JTextArea(entity.getLabel());
         entryTitle.setLineWrap(true);
         entryTitle.setWrapStyleWord(true);
-        entryTitle.setEditable(editable);
+        entryTitle.setEditable(false);
         entryTitle.setBorder(null);
         entryTitle.setFont(new Font("Roboto", Font.BOLD, 30));
         classification = new JButton(entity.getClassification().name());
@@ -184,11 +191,11 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
             JTextArea body = new JTextArea(t.getBody());
             title.setLineWrap(true);
             title.setWrapStyleWord(true);
-            title.setEditable(editable);
+            title.setEditable(false);
             title.setBorder(null);
             body.setLineWrap(true);
             body.setWrapStyleWord(true);
-            body.setEditable(editable);
+            body.setEditable(false);
             body.setBorder(null);
 
             displayInGridBag(0, initialGridY, 5, 0, 0, title);
@@ -199,7 +206,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
         addNewTextArea = new JButton("Add New Text Area");
 
-        if (editable) {
+        if (false) {
             displayInGridBag(0, initialGridY + 2, 5, 0, 0, addNewTextArea);
         }
 
@@ -252,7 +259,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
             entityNum = Integer.parseInt(actionCommand);
             System.out.println(entityNum);
             entityToDisplay = database.getSCP(entityNum);
-            initializeRightPanel(false, entityToDisplay);
+            initializeRightPanel(entityToDisplay);
         } catch (NumberFormatException nfe) {
             switch (actionCommand) {
                 case "add":
@@ -263,12 +270,14 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
                     }
                     break;
                 case "edit":
-                    if (currentEntityOnRight.getClassification() == Classification.UNCLASSIFIED) {
+                    if (currentEntityOnRight.getClassification().name().equals(Classification.UNCLASSIFIED.name())) {
                         System.out.println("problem - Entity does not exist");
                     } else {
-                        initializeRightPanel(true, currentEntityOnRight);
+                        editEntry(currentEntityOnRight);
                     }
                     break;
+                case "addtextblock":
+                    addTextBlock();
                 default:
                     System.out.println("default");
                     break;
@@ -276,16 +285,77 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         }
     }
 
+    private void addTextBlock() {
+        JTextArea title = new JTextArea();
+        JTextArea body = new JTextArea();
+        title.setLineWrap(true);
+        body.setLineWrap(true);
+        GridLayout addTextLayout = new GridLayout(0, 1);
+        JPanel addTextPanel = new JPanel(addTextLayout);
+        addTextPanel.add(new JLabel("Title"));
+        addTextPanel.add(title);
+        addTextPanel.add(new JLabel("Body"));
+        addTextPanel.add(body);
+        addTextPanel.setSize((int)(screenSize.getWidth() * 0.5), (int)(screenSize.getHeight() * 0.5));
+
+        int result = JOptionPane.showConfirmDialog(null, addTextPanel, "Create Text Block",
+                JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION) {
+            currentEntityOnRight.addEntry(title.getText(), body.getText());
+            initializeRightPanel(currentEntityOnRight);
+        }
+    }
+
+    private void editEntry(Entity e) {
+        System.out.println("got to editEntry");
+        JTextField nameInput = new JTextField(e.getName());
+        JComboBox<Classification> classMenu = new JComboBox<>(classChoices);
+        classMenu.setSelectedItem(e.getClassification());
+        JComboBox<String> containMenu = new JComboBox<>(containChoices);
+
+        if (!e.isContained()) {
+            containMenu.setSelectedItem(containChoices[0]);
+        } else {
+            containMenu.setSelectedItem(containChoices[1]);
+        }
+
+        GridLayout addPanelLayout = new GridLayout(0,1);
+        JPanel editPanel = new JPanel(addPanelLayout);
+        editPanel.add(new JLabel("SCP-" + Entity.formatNumLength(e.getItemNumber(), Database.MIN_DIGITS)));
+        editPanel.add(nameInput);
+        editPanel.add(Box.createHorizontalStrut(15));
+        editPanel.add(classMenu);
+        editPanel.add(Box.createHorizontalStrut(15));
+        editPanel.add(containMenu);
+
+        JButton addTextBlock = new JButton("Add New Text Block");
+        addTextBlock.setActionCommand("addtextblock");
+        addTextBlock.addActionListener(this);
+
+        editPanel.add(addTextBlock);
+
+        int result = JOptionPane.showConfirmDialog(null, editPanel, "Edit SCP",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            boolean contained = !containMenu.getSelectedItem().equals(containChoices[0]);
+            e.setName(nameInput.getText());
+            e.setObjectClass((Classification)classMenu.getSelectedItem());
+            e.setContained(contained);
+            initializeRightPanel(database.getSCP(e.getItemNumber()));
+        }
+        initializeListOfNames();
+    }
+
+
     private void addEntity(Entity e) throws EntityAlreadyExistsException {
         if (e.getClassification().name().equals(Classification.UNCLASSIFIED.name())) {
             System.out.println("adds new scp");
 
             JTextField nameInput = new JTextField(10);
-            Classification[] classChoices = {Classification.SAFE, Classification.EUCLID, Classification.KETER,
-                    Classification.THAUMIEL, Classification.APOLLYON};
-            String[] containChoices = {"Contained", "Uncontained"};
             JComboBox<Classification> classMenu = new JComboBox<>(classChoices);
             JComboBox<String> containMenu = new JComboBox<>(containChoices);
+            containMenu.setSelectedItem(containChoices[1]);
 
             GridLayout addPanelLayout = new GridLayout(0,1);
             JPanel addPanel = new JPanel(addPanelLayout);
@@ -296,17 +366,16 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
             addPanel.add(Box.createHorizontalStrut(15));
             addPanel.add(containMenu);
 
-            int result = JOptionPane.showConfirmDialog(null, addPanel, "sussie",
+            int result = JOptionPane.showConfirmDialog(null, addPanel, "Create SCP",
                     JOptionPane.OK_CANCEL_OPTION);
             if (result == JOptionPane.OK_OPTION) {
-                System.out.println(nameInput.getText());
-                System.out.println(classMenu.getSelectedItem());
-                System.out.println(containMenu.getSelectedItem());
-                boolean contained = !containMenu.getSelectedItem().equals("Contained");
-                database.addSCP(new Entity(e.getItemNumber(), nameInput.getText(),
-                        (Classification)classMenu.getSelectedItem(), contained));
-                initializeRightPanel(false, database.getSCP(e.getItemNumber()));
+                boolean contained = !containMenu.getSelectedItem().equals(containChoices[0]);
+                e.setName(nameInput.getText());
+                e.setObjectClass((Classification)classMenu.getSelectedItem());
+                e.setContained(contained);
+                initializeRightPanel(e);
             }
+            initializeListOfNames();
 
         } else {
             throw new EntityAlreadyExistsException("This SCP already has an entry!");
@@ -318,13 +387,15 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     }
 
     private void initializeListOfNames() {
+        buttonPanel.removeAll();
         for (Entity e: database.getListOfSCPs()) {
             JButton entityButton = new JButton(e.getLabel());
             entityButton.setActionCommand(Integer.toString(e.getItemNumber()));
             entityButton.addActionListener(this);
             buttonPanel.add(entityButton);
         }
-
+        revalidate();
+        repaint();
     }
 
 }

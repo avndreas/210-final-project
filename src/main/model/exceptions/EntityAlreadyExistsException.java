@@ -1,4 +1,4 @@
-package model.Exceptions;
+package model.exceptions;
 
 public class EntityAlreadyExistsException extends Exception {
     public EntityAlreadyExistsException(String msg) {
