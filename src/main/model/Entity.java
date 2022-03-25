@@ -61,8 +61,8 @@ public class Entity implements Writable {
     // MODIFIES:
     // EFFECTS: Returns a string with the SCP's label, nicely formatted.
     public String getLabel() {
-        String entry = "SCP-" + formatNumLength(this.getItemNumber(), Database.MIN_DIGITS) +
-                 " - " + name;
+        String entry = "SCP-" + formatNumLength(this.getItemNumber(), Database.MIN_DIGITS)
+                + " - " + name;
         return entry;
     }
 

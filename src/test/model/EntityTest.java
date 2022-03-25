@@ -107,4 +107,9 @@ class EntityTest {
         assertEquals("173 The Sculpture EUCLID true\ntest title test body\n"
                 + "second test title second test body\n", entity.getAllInfo());
     }
+
+    @Test
+    void testGetLabel() {
+        assertEquals("SCP-173 - The Sculpture", entity.getLabel());
+    }
 }

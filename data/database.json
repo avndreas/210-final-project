@@ -16,19 +16,10 @@
         },
         {
             "number": 2,
-            "contained": false,
-            "entityInfo": [
-                {
-                    "title": "text1",
-                    "body": "funny text"
-                },
-                {
-                    "title": "text2",
-                    "body": "bottom text"
-                }
-            ],
-            "name": "Test Entity",
-            "objectClass": "KETER"
+            "contained": true,
+            "entityInfo": [],
+            "name": "[ACCESS DENIED]",
+            "objectClass": "UNCLASSIFIED"
         },
         {
             "number": 3,
@@ -1482,9 +1473,18 @@
         {
             "number": 210,
             "contained": true,
-            "entityInfo": [],
-            "name": "[ACCESS DENIED]",
-            "objectClass": "UNCLASSIFIED"
+            "entityInfo": [
+                {
+                    "title": "Special Containment Procedures",
+                    "body": "SCP-210 is to be uncontacted by SCP personnel, and is to be treated as a normal member of UBC staff. He is to be allowed to hold lectures and interact with students, however in the case of a GRUND event, witnesses are to be administered Class A amnestics, and affected personnel are to be declared dead, and a public statement is to cover the incident by stating the deaths were caused by a gas leak."
+                },
+                {
+                    "title": "Description",
+                    "body": "SCP-210 is a male humanoid entity, likely northern European in ethnicity, who acts as a professor at the University of British Columbia, Vancouver. SCP-210 goes by the name \"Felix Grund\", and teaches computer science to the university's undergraduates. \n\nSCP-210 was first discovered when a student at UBC reported to police that there was a classroom \"packed tight with animals\". Foundation staff were immediately notified at the anomalous event, and a mobile task force was dispatched to survey the scene. Upon arrival, the task force discovered the specified lecture hall to be truly packed tight with animals. Most seemed dead, as they were compressed tightly in the space, and estimating numbers were difficult due to the wide variety of sizes of animals discovered. Some of the animals recovered included several rats, dogs, cats, lions, leopards, one grizzly bear, several species of bird, a slug, and a giraffe. Only the slug was recovered alive, and was designated SCP-210-1. The origin of these animals was not initially determined, however SCP-210 was found standing outside the classroom door, seemingly content. When returned to foundation custody, SCP-210-1 was observed behaving unusually, displaying a preference for images of computers or Java code. The students who had a class during the occurence of the event were not found.\n\nAfter three months of careful observation of SCP-210 as well as the university campus as a whole, the cause of this event was determined, and the event was named a GRUND event. At the end of the next academic term, a camera in SCP-210's lecture hall recorded SCP-210 thanking his class for a good term, and stating he will briefly exit the class to \"do something\". Upon exiting, every student in the class began to show extreme signs of distress and agony, and within three seconds, the room was once again filled with various animals.\n\nSCP-210 appears to be responsible for GRUND events, which it causes at the end of each of its teaching terms. SCP personnel attempted to detain the individual, however upon trying, were instantaneously transformed into rabbits. As a result, there is currently no method to contain SCP-210, however it expresses no desire to leave its classroom."
+                }
+            ],
+            "name": "Felix Grund",
+            "objectClass": "EUCLID"
         },
         {
             "number": 211,

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 // Database console UI application
+// NOTE: NO LONGER OF USE, SEE DatabaseSwingUI.java
 public class DatabaseUI {
     private static final String JSON_STORE = "./data/database.json";
     private Scanner input;
