@@ -61,13 +61,11 @@ public class DatabaseTest {
         assertEquals(defaultList, database.listAll());
     }
 
-    /* May be used at a later date
     @Test
-    void entityExists() {
-        assertFalse(database.entityExists(1));
+    void testGetListOfSCPs() {
+        assertEquals(SERIES * Database.ENTRIES_PER_SERIES, database.getListOfSCPs().size());
         database.addSCP(testEntity);
-        assertFalse(database.entityExists(1));
-        assertTrue(database.entityExists(504));
+        assertEquals(testEntity, database.getListOfSCPs().get(testEntity.getItemNumber()));
+        assertEquals(SERIES * Database.ENTRIES_PER_SERIES, database.getListOfSCPs().size());
     }
-    */
 }

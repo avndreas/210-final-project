@@ -72,9 +72,9 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     private final Classification[] classChoices = {Classification.SAFE, Classification.EUCLID, Classification.KETER,
             Classification.THAUMIEL, Classification.NEUTRALIZED, Classification.APOLLYON, Classification.ARCHON};
 
-    private String introText = "The SCP foundation is one of the largest community projects on the internet. Many people "
-            + "work together to create an extremely entertaining world of horror. \n"
-            + "An SCP is an entity, it could be an animal, humanoid, or object, which possesses anomalous"
+    private String introText = "The SCP foundation is one of the largest community projects on the internet. Many "
+            + "people work together to create an extremely entertaining world of horror. \n"
+            + "An SCP is an entity, it could be an animal, humanoid, or object, which possesses anomalous "
             + "properties. An entry with no data appears as [ACCESS DENIED]. \n"
             + "SCPs come in seven different classifications, each pertaining to a different complexity of"
             + " possibility of containment, as well as danger level. \n"
