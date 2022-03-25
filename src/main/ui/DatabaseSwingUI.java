@@ -57,12 +57,13 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     private JTextArea entryTitle;
     private JButton classification;
     private JButton containmentStatus;
-    private JButton addNewTextArea;
     private JScrollPane rightPanelScrollPane;
     private GridBagLayout rightGridBagLayout;
     private GridBagConstraints rightConstraints;
     private GridLayout leftLayout;
     private Entity currentEntityOnRight;
+    private BorderLayout borderLayout = new BorderLayout();
+    private JPanel borderPanel = new JPanel(borderLayout);
 
     private int appWidth;
     private int appHeight;
@@ -93,6 +94,8 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         rightConstraints = new GridBagConstraints();
         rightPanelScrollPane = new JScrollPane(rightPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        //borderPanel = new JPanel();
+        //borderPanel.add(rightPanelScrollPane);
 
         rightConstraints = new GridBagConstraints();
 
@@ -126,12 +129,12 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
         // fix this if i actually have time
         //leftPanel.setMinimumSize(new Dimension(appWidth / 5, appHeight));
-        middlePanelScrollPane.setMinimumSize(new Dimension(appWidth * 2 / 5, appHeight));
-        middlePanelScrollPane.setMaximumSize(new Dimension(appWidth * 2 / 5, appHeight));
-        //rightPanelScrollPane.setMinimumSize(new Dimension(appWidth * 2 / 5, appHeight));
+        middlePanelScrollPane.setMinimumSize(new Dimension(appWidth * 1 / 5, appHeight));
+        middlePanelScrollPane.setMaximumSize(new Dimension(appWidth * 1 / 5, appHeight));
+        rightPanelScrollPane.setMinimumSize(new Dimension(appWidth * 1 / 5, appHeight));
 
         splitPane1.setDividerLocation((int)(appWidth / 5));
-        splitPane2.setDividerLocation((int)(appWidth * 2 / 5 + (appWidth / 5)));
+        splitPane2.setDividerLocation((int)(appWidth * 3 / 5));
 
         this.add(splitPane2, BorderLayout.CENTER);
         this.setSize(new Dimension(appWidth, appHeight));
@@ -155,6 +158,9 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         editButton.addActionListener(this);
 
         deleteButton = new JButton("Delete SCP");
+        deleteButton.setActionCommand("delete");
+        deleteButton.addActionListener(this);
+
         //saveEntityButton = new JButton("Save Edited SCP");
         entryTitle = new JTextArea(entity.getLabel());
         entryTitle.setLineWrap(true);
@@ -181,6 +187,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         for (TextBlock t: entity.getEntityInfo()) {
             JTextArea title = new JTextArea(t.getTitle());
             JTextArea body = new JTextArea(t.getBody());
+            title.setFont(new Font("Roboto", Font.BOLD, 15));
             title.setLineWrap(true);
             title.setWrapStyleWord(true);
             title.setEditable(false);
@@ -189,6 +196,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
             body.setWrapStyleWord(true);
             body.setEditable(false);
             body.setBorder(null);
+
 
             displayInGridBag(0, initialGridY, 5, 0, 0, title);
             displayInGridBag(0, initialGridY + 1, 5, 0, 0, body);
@@ -276,6 +284,9 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
                         editEntry(currentEntityOnRight);
                     }
                     break;
+                case "delete":
+                    deleteSCP();
+                    break;
                 case "addtextblock":
                     addTextBlock();
                     break;
@@ -293,6 +304,12 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
                     break;
             }
         }
+    }
+
+    private void deleteSCP() {
+        database.deleteSCP(currentEntityOnRight.getItemNumber());
+        initializeListOfNames();
+        displayMenu();
     }
 
     // REFERENCE: CPSC 210 example files
