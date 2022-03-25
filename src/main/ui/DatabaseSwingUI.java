@@ -1,5 +1,6 @@
 package ui;
 
+import jdk.nashorn.internal.scripts.JO;
 import model.Classification;
 import model.Database;
 import model.Entity;
@@ -16,7 +17,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class DatabaseSwingUI extends JFrame implements ActionListener {
     //private JLabel label;
@@ -51,7 +54,6 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     private JButton addButton;
     private JButton editButton;
     private JButton deleteButton;
-    private JButton saveEntityButton;
     private JTextArea entryTitle;
     private JButton classification;
     private JButton containmentStatus;
@@ -97,13 +99,8 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, middlePanelScrollPane);
         splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane1, rightPanelScrollPane);
 
-
-        //entityCatalogueScrollPane = new JScrollPane(middlePanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-        //        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-        //Dimension minimumSize = new Dimension(100, 50);
-        //leftPanel.setMinimumSize(minimumSize);
-        //entityCatalogueScrollPane.setMinimumSize(minimumSize);
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
 
         runDatabase();
     }
@@ -111,17 +108,8 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     private void runDatabase() {
         database = new Database(SERIES);
         initializeListOfNames();
-
-        //JButton btn = new JButton("Change");
-        //btn.setActionCommand("myButton");
-        //btn.addActionListener(this); // Sets "this" object as an action listener for btn
-        // so that when the btn is clicked,
-        // this.actionPerformed(ActionEvent e) will be called.
-        // You could also set a different object, if you wanted
-        // a different object to respond to the button click
         //pack();
         displayMenu();
-
     }
 
     private void displayMenu() {
@@ -136,6 +124,11 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         initializeLeftPanel();
         initializeRightPanel(database.getSCP(1));
 
+        // fix this if i actually have time
+        //leftPanel.setMinimumSize(new Dimension(appWidth / 5, appHeight));
+        middlePanelScrollPane.setMinimumSize(new Dimension(appWidth * 2 / 5, appHeight));
+        middlePanelScrollPane.setMaximumSize(new Dimension(appWidth * 2 / 5, appHeight));
+        //rightPanelScrollPane.setMinimumSize(new Dimension(appWidth * 2 / 5, appHeight));
 
         splitPane1.setDividerLocation((int)(appWidth / 5));
         splitPane2.setDividerLocation((int)(appWidth * 2 / 5 + (appWidth / 5)));
@@ -162,7 +155,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         editButton.addActionListener(this);
 
         deleteButton = new JButton("Delete SCP");
-        saveEntityButton = new JButton("Save Edited SCP");
+        //saveEntityButton = new JButton("Save Edited SCP");
         entryTitle = new JTextArea(entity.getLabel());
         entryTitle.setLineWrap(true);
         entryTitle.setWrapStyleWord(true);
@@ -179,7 +172,6 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         displayInGridBag(0, 0, 1, 0, 0, addButton);
         displayInGridBag(1, 0, 1, 0, 0, editButton);
         displayInGridBag(3, 0, 1, 0, 0, deleteButton);
-        displayInGridBag(4, 0, 1, 0, 0, saveEntityButton);
         displayInGridBag(0, 1, 5, 0, 40, entryTitle);
         displayInGridBag(0, 2, 2, 0, 0, classification);
         displayInGridBag(3, 2, 2, 0, 0, containmentStatus);
@@ -203,13 +195,6 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
             initialGridY = initialGridY + 2;
         }
-
-        addNewTextArea = new JButton("Add New Text Area");
-
-        if (false) {
-            displayInGridBag(0, initialGridY + 2, 5, 0, 0, addNewTextArea);
-        }
-
         revalidate();
         repaint();
 
@@ -228,6 +213,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
     }
 
     private void initializeLeftPanel() {
+        leftPanel.removeAll();
         BufferedImage siteLogo;
         try {
             siteLogo = ImageIO.read(new File("data/images/SCP_Logo.png"));
@@ -248,6 +234,20 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         //leftText.setFont(new Font("Serif", Font.BOLD, 18));
         leftPanel.add(leftTextArea);
         //leftPanel.add(testLeft);
+
+
+        JButton saveButton = new JButton("Save Database");
+        JButton loadButton = new JButton("Load Database");
+
+        saveButton.setActionCommand("save");
+        saveButton.addActionListener(this);
+        loadButton.setActionCommand("load");
+        loadButton.addActionListener(this);
+
+        leftPanel.add(saveButton);
+        leftPanel.add(loadButton);
+        revalidate();
+        repaint();
     }
 
     //This is the method that is called when the the JButton btn is clicked
@@ -278,6 +278,16 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
                     break;
                 case "addtextblock":
                     addTextBlock();
+                    break;
+                case "removetextblock":
+                    removeTextBlock();
+                    break;
+                case "save":
+                    saveJson();
+                    break;
+                case "load":
+                    readJson();
+                    break;
                 default:
                     System.out.println("default");
                     break;
@@ -285,17 +295,46 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         }
     }
 
+    // REFERENCE: CPSC 210 example files
+    private void readJson() {
+        try {
+            database = jsonReader.read();
+            initializeListOfNames();
+            displayMenu();
+        } catch (IOException e) {
+            System.out.println("Error reading the file. Current save has not been altered.");
+        }
+
+    }
+
+    // REFERENCE: CPSC 210 example files
+    private void saveJson() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(database);
+            jsonWriter.close();
+            System.out.println("Saved the database to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
     private void addTextBlock() {
-        JTextArea title = new JTextArea();
-        JTextArea body = new JTextArea();
+        JTextArea title = new JTextArea(1, 30);
+        JTextArea body = new JTextArea(10, 30);
+
+        JScrollPane titleScroll = new JScrollPane(title);
+        JScrollPane bodyScroll = new JScrollPane(body);
+
         title.setLineWrap(true);
         body.setLineWrap(true);
-        GridLayout addTextLayout = new GridLayout(0, 1);
-        JPanel addTextPanel = new JPanel(addTextLayout);
+        JPanel addTextPanel = new JPanel();
+        BoxLayout addTextLayout = new BoxLayout(addTextPanel, BoxLayout.Y_AXIS);
+        addTextPanel.setLayout(addTextLayout);
         addTextPanel.add(new JLabel("Title"));
-        addTextPanel.add(title);
+        addTextPanel.add(titleScroll);
         addTextPanel.add(new JLabel("Body"));
-        addTextPanel.add(body);
+        addTextPanel.add(bodyScroll);
         addTextPanel.setSize((int)(screenSize.getWidth() * 0.5), (int)(screenSize.getHeight() * 0.5));
 
         int result = JOptionPane.showConfirmDialog(null, addTextPanel, "Create Text Block",
@@ -303,6 +342,31 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
         if (result == JOptionPane.OK_OPTION) {
             currentEntityOnRight.addEntry(title.getText(), body.getText());
+            initializeRightPanel(currentEntityOnRight);
+        }
+    }
+
+    private void removeTextBlock() {
+        JPanel removeTextPanel = new JPanel();
+        BoxLayout addTextLayout = new BoxLayout(removeTextPanel, BoxLayout.Y_AXIS);
+        removeTextPanel.setLayout(addTextLayout);
+        removeTextPanel.setSize((int)(screenSize.getWidth() * 0.5), (int)(screenSize.getHeight() * 0.5));
+
+        ArrayList<String> titleList = new ArrayList<>();
+
+        for (TextBlock t: currentEntityOnRight.getEntityInfo()) {
+            titleList.add(t.getTitle());
+        }
+
+        JComboBox titleDropDown = new JComboBox(titleList.toArray());
+
+        removeTextPanel.add(titleDropDown);
+
+        int result = JOptionPane.showConfirmDialog(null, removeTextPanel, "Remove Text Block",
+                JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION) {
+            currentEntityOnRight.deleteEntry(titleDropDown.getSelectedIndex());
             initializeRightPanel(currentEntityOnRight);
         }
     }
@@ -322,7 +386,8 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
         GridLayout addPanelLayout = new GridLayout(0,1);
         JPanel editPanel = new JPanel(addPanelLayout);
-        editPanel.add(new JLabel("SCP-" + Entity.formatNumLength(e.getItemNumber(), Database.MIN_DIGITS)));
+        editPanel.add(new JLabel("SCP-" + Entity.formatNumLength(e.getItemNumber(), Database.MIN_DIGITS)
+                + ": Name"));
         editPanel.add(nameInput);
         editPanel.add(Box.createHorizontalStrut(15));
         editPanel.add(classMenu);
@@ -333,7 +398,12 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         addTextBlock.setActionCommand("addtextblock");
         addTextBlock.addActionListener(this);
 
+        JButton removeTextBlock = new JButton("Remove a Text Block");
+        removeTextBlock.setActionCommand("removetextblock");
+        removeTextBlock.addActionListener(this);
+
         editPanel.add(addTextBlock);
+        editPanel.add(removeTextBlock);
 
         int result = JOptionPane.showConfirmDialog(null, editPanel, "Edit SCP",
                 JOptionPane.OK_CANCEL_OPTION);
