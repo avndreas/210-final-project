@@ -15,6 +15,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -87,6 +89,8 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         super("SCP Database");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        closeOp();
+
         ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
         setLayout(new BorderLayout());
 
@@ -104,8 +108,6 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         rightConstraints = new GridBagConstraints();
         rightPanelScrollPane = new JScrollPane(rightPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        //borderPanel = new JPanel();
-        //borderPanel.add(rightPanelScrollPane);
 
         rightConstraints = new GridBagConstraints();
 
@@ -117,6 +119,17 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
 
         runDatabase();
     }
+
+    private void closeOp() {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.out.println("closed");
+                System.exit(0);
+            }
+        });
+    }
+
 
     // REQUIRES:
     // MODIFIES: this, database
