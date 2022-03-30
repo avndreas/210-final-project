@@ -26,8 +26,6 @@ public class TextBlock implements Writable {
         return json;
     }
 
-    // getters (setters will be added after phase 1)
-
     public String getTitle() {
         return this.title;
     }

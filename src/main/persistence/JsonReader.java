@@ -3,6 +3,7 @@ package persistence;
 import model.Database;
 import model.Entity;
 import model.Classification;
+import model.observer.EventLog;
 import org.json.*;
 
 import java.io.IOException;
@@ -74,6 +75,5 @@ public class JsonReader {
         }
 
         d.addSCP(entity);
-
     }
 }

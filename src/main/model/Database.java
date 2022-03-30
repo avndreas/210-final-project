@@ -66,25 +66,6 @@ public class Database extends Observable implements Writable {
         listOfSCPs.set(itemNumber, blankEntity);
     }
 
-    /* IGNORE FOR PHASE 1 THIS IS NOT GOING TO BE USED YET
-    // REQUIRES: integers start <= end
-    // MODIFIES:
-    // EFFECTS: Returns everything in listOfSCPs from one index to another with some formatting for readability.
-    public String listFromTo(int start, int end) {
-        Entity currentSCP;
-        String entityList = "Listing all SCPs from " + start + "to " + end + ".";
-
-        for (int i = start; i <= end; i++) {
-            currentSCP = getSCP(i);
-            entityList = entityList + "\n SCP-"
-                    + currentSCP.formatNumLength(currentSCP.getItemNumber(), MIN_DIGITS)
-                    + " - "
-                    + currentSCP.getName();
-        }
-        return entityList;
-    }
-    */
-
     // REQUIRES:
     // MODIFIES:
     // EFFECTS: Returns everything in listOfSCPs in order with some formatting for readability.
@@ -100,19 +81,6 @@ public class Database extends Observable implements Writable {
         return entityList;
     }
 
-    /* CURRENTLY NOT USED BECAUSE I DON'T NEED FOOLPROOFING YET
-    // REQUIRES: objectNum >= 0
-    // MODIFIES:
-    // EFFECTS: Returns true if the object number is within the database's series, false if there's no existing entity.
-    public boolean entityExists(int objectNum) {
-        try {
-            listOfSCPs.get(objectNum);
-            return true;
-        } catch (IndexOutOfBoundsException err) {
-            return false;
-        }
-    }
-    */
 
     // REQUIRES: itemNumber be from 0 to (series * ENTRIES_PER_SERIES) - 1
     // EFFECTS: Returns the Entity belonging to a number
