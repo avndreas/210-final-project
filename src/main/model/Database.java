@@ -53,7 +53,6 @@ public class Database extends Observable implements Writable {
                 + Entity.formatNumLength(entity.getItemNumber(), MIN_DIGITS) +  " was added to the database."));
         int itemNumber = entity.getItemNumber();
         listOfSCPs.set(itemNumber, entity);
-        // TODO: Make an update "Entry for SCP-XXX was added to the database."
     }
 
     // REQUIRES: (series * ENTRIES_PER_SERIES) > itemNumber > 0
@@ -65,7 +64,6 @@ public class Database extends Observable implements Writable {
                 + Entity.formatNumLength(itemNumber, MIN_DIGITS) +  " was deleted from the database."));
         Entity blankEntity = new Entity(itemNumber, DEFAULT_NAME, DEFAULT_CLASS, DEFAULT_CONT);
         listOfSCPs.set(itemNumber, blankEntity);
-        // TODO: Make an update "Entry for SCP-XXX was deleted from the database."
     }
 
     /* IGNORE FOR PHASE 1 THIS IS NOT GOING TO BE USED YET
