@@ -6,6 +6,8 @@ import model.Database;
 import model.Entity;
 import model.TextBlock;
 import model.exceptions.*;
+import model.observer.EventLog;
+import model.observer.Event;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -124,7 +126,10 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println("closed");
+                EventLog log = EventLog.getInstance();
+                for (Event ev : log) {
+                    System.out.println(ev.toString() + "\n\n");
+                }
                 System.exit(0);
             }
         });
@@ -548,6 +553,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
             int result = JOptionPane.showConfirmDialog(null, addPanel, "Create SCP",
                     JOptionPane.OK_CANCEL_OPTION);
             if (result == JOptionPane.OK_OPTION) {
+                database.addSCP(e);
                 processEntity(e, classMenu, containMenu, nameInput);
             }
             initializeListOfNames();

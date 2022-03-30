@@ -1,14 +1,17 @@
 package model;
 
+import model.observer.Event;
+import model.observer.EventLog;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 // Represents a database containing Entity objects (also known as SCPs),
-public class Database implements Writable {
+public class Database extends Observable implements Writable {
     private List<Entity> listOfSCPs;
     public static final int MIN_DIGITS = 3;
     public static final int ENTRIES_PER_SERIES = 1000;
@@ -45,17 +48,24 @@ public class Database implements Writable {
     // MODIFIES: listOfSCPs
     // EFFECTS: Sets an entry into the database index of the SCP's item number.
     public void addSCP(Entity entity) {
+        notifyObservers();
+        EventLog.getInstance().logEvent(new Event("Entry for SCP-"
+                + Entity.formatNumLength(entity.getItemNumber(), MIN_DIGITS) +  " was added to the database."));
         int itemNumber = entity.getItemNumber();
         listOfSCPs.set(itemNumber, entity);
+        // TODO: Make an update "Entry for SCP-XXX was added to the database."
     }
 
     // REQUIRES: (series * ENTRIES_PER_SERIES) > itemNumber > 0
     // MODIFIES: listOfSCPs
     // EFFECTS: Replaces desired SCP with a blank instance, effectively wiping it.
     public void deleteSCP(int itemNumber) {
+        notifyObservers();
+        EventLog.getInstance().logEvent(new Event("Entry for SCP-"
+                + Entity.formatNumLength(itemNumber, MIN_DIGITS) +  " was deleted from the database."));
         Entity blankEntity = new Entity(itemNumber, DEFAULT_NAME, DEFAULT_CLASS, DEFAULT_CONT);
         listOfSCPs.set(itemNumber, blankEntity);
-        // favourites.remove(getSCP(itemNumber));
+        // TODO: Make an update "Entry for SCP-XXX was deleted from the database."
     }
 
     /* IGNORE FOR PHASE 1 THIS IS NOT GOING TO BE USED YET
