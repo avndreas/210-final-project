@@ -550,8 +550,7 @@ public class DatabaseSwingUI extends JFrame implements ActionListener {
             addPanel.add(Box.createHorizontalStrut(15));
             addPanel.add(containMenu);
 
-            int result = JOptionPane.showConfirmDialog(null, addPanel, "Create SCP",
-                    JOptionPane.OK_CANCEL_OPTION);
+            int result = JOptionPane.showConfirmDialog(null, addPanel, "Create SCP", JOptionPane.OK_CANCEL_OPTION);
             if (result == JOptionPane.OK_OPTION) {
                 database.addSCP(e);
                 processEntity(e, classMenu, containMenu, nameInput);
