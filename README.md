@@ -25,3 +25,25 @@ about this project.*
 - I want the option to save the database manually.
 - I want the option to load the database from the save file.
 
+### Phase 4: Task 2
+The following is a log produced after running the program, adding two
+SCPs in slots 001 and 002 respectively, and then deleting the entry 
+for 001. SCP-001 was edited immediately after its creation, but this 
+type of action does not get logged.
+
+```
+Wed Mar 30 10:17:06 PDT 2022
+Entry for SCP-001 was added to the database.
+
+
+Wed Mar 30 10:17:33 PDT 2022
+Entry for SCP-002 was added to the database.
+
+
+Wed Mar 30 10:17:37 PDT 2022
+Entry for SCP-001 was deleted from the database.
+
+
+
+Process finished with exit code 0
+```
