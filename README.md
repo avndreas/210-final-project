@@ -47,3 +47,24 @@ Entry for SCP-001 was deleted from the database.
 
 Process finished with exit code 0
 ```
+
+### Phase 4: Task 3
+Some thoughts on possible refactoring.
+
+Implementing proper bidirectional relationships between Database 
+and Entity, as well as Entity and TextBlock, would have allowed multiple databases to be maintained at 
+once, rather than having a primary one, and there would be capability to have a text block that's visible 
+under every entry (which could be used for a site footer, for example). Not to mention that 
+improving these relationships and their stability would improve the overall robustness of the program 
+as a whole as well.
+
+I would have localized Classification to an enum within  Entity, and created getters/setters for the 
+possible types of classifications an instance may have. I would have also contained all the formatting 
+constants (such as ENTRIES_PER_SERIES or MIN_DIGITS) to either Database or Entity, and created the 
+appropriate getter and setter methods. This would avoid the messiness of public constants.
+
+Lastly, I would have cleaned up Entity's purpose more. It currently has much functionality for generating 
+strings of related information, which became less useful once UI was implemented. It should not have 
+dealt with those tasks in the first place, because putting them in the UI class instead would have 
+saved me a lot of time testing them. Reflecting on this more, I would do the same for all classes, 
+many of which I have no doubt are performing tasks they do not need to be doing.
