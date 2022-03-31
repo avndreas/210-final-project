@@ -48,6 +48,7 @@ Entry for SCP-001 was deleted from the database.
 Process finished with exit code 0
 ```
 
+
 ### Phase 4: Task 3
 Some thoughts on possible refactoring.
 
