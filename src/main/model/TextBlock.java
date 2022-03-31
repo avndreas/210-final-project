@@ -26,6 +26,7 @@ public class TextBlock implements Writable {
         return json;
     }
 
+
     public String getTitle() {
         return this.title;
     }
